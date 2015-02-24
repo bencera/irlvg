@@ -30,10 +30,10 @@
 
 @implementation CommentsViewController
 
-@synthesize subVC;
-
 -(void)viewDidLoad{
     [super viewDidLoad];
+    
+
     
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
@@ -128,6 +128,10 @@
 
 }
 
+- (void)pushMessageText:(NSString *)text {
+    NSLog(@"Message Pushed");
+}
+
 -(void)showKeyboard{
     [_textView becomeFirstResponder];
     [_textView setSelectedRange:NSMakeRange(0, 0)];
@@ -141,7 +145,7 @@
 }
 
 -(void)backToGame{
-    [self.subVC backToGame];
+    [self.delegate backButtonPressedFromCommeentsController:self];
 }
 
 #pragma mark - TableView functions

@@ -8,10 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "SubscribeViewController.h"
+@class CommentsViewController;
+
+@protocol CommentsViewControllerDelegate <NSObject>
+
+- (void)commentsController:(CommentsViewController *)controller didFinishTypingText:(NSString *)text;
+- (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller;
+
+@end
 
 @interface CommentsViewController : UIViewController
 
-@property (strong,nonatomic) SubscribeViewController *subVC;
+//@property (strong,nonatomic) SubscribeViewController *subVC;
+@property (weak, nonatomic) id<CommentsViewControllerDelegate> delegate;
+- (void)pushMessageText:(NSString *)text;
 
 
 @end

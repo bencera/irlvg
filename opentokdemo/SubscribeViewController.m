@@ -14,7 +14,7 @@
 #import "ControlsViewController.h"
 #import "CommentsViewController.h"
 
-@interface SubscribeViewController () <OTSessionDelegate, OTPublisherDelegate, OTSubscriberKitDelegate,FayeClientDelegate>
+@interface SubscribeViewController () <OTSessionDelegate, OTPublisherDelegate, OTSubscriberKitDelegate,FayeClientDelegate, CommentsViewControllerDelegate>
 
 @property (strong,nonatomic) FayeClient *client;
 @property (nonatomic) UIButton *forwardB;
@@ -25,6 +25,7 @@
 @property (nonatomic) UIButton *action2B;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIView *movieSupportingView;
+@property (strong, nonatomic) CommentsViewController *commentsVC;
 
 
 @end
@@ -69,6 +70,8 @@ static OTMoviePlayer* moviePlayer = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+ 
     
     [self ConnectToFaye];
     
@@ -130,7 +133,10 @@ static OTMoviePlayer* moviePlayer = nil;
     
     CommentsViewController *commentsVC = [[CommentsViewController alloc]init];
     commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    commentsVC.subVC = self;
+
+    self.commentsVC = commentsVC;
+    commentsVC.delegate = self;
+    //commentsVC.subVC = self;
     commentsVC.view.layer.zPosition = 99;
     [_scrollView addSubview:commentsVC.view];
 }
@@ -255,6 +261,16 @@ receivedSignalType:(NSString*)type
 
 - (BOOL)shouldAutorotate {
     return NO;
+}
+
+#pragma mark - CommentsViewControllerDelegate
+
+- (void)commentsController:(CommentsViewController *)controller didFinishTypingText:(NSString *)text {
+    NSLog(@"Did type comment - Use Faye here");
+}
+
+- (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller {
+    [self backToGame];
 }
 
 #pragma mark - Faye

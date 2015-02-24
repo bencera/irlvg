@@ -78,6 +78,8 @@
 		D6CBD8CF1A9699C000331AFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CE1A9699C000331AFD /* CoreData.framework */; };
 		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
 		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
+		F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AF1A9D39BF0029FF01 /* TJWUser.m */; };
+		F59C30B31A9D3A570029FF01 /* TJWComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30B21A9D3A570029FF01 /* TJWComment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +190,10 @@
 		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
 		F59C30AA1A9CEB530029FF01 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
 		F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
+		F59C30AE1A9D39BF0029FF01 /* TJWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJWUser.h; sourceTree = "<group>"; };
+		F59C30AF1A9D39BF0029FF01 /* TJWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWUser.m; sourceTree = "<group>"; };
+		F59C30B11A9D3A570029FF01 /* TJWComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJWComment.h; sourceTree = "<group>"; };
+		F59C30B21A9D3A570029FF01 /* TJWComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWComment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +375,10 @@
 				D64FDA3D1A964C6F00727EF7 /* Supporting Files */,
 				F59C30AA1A9CEB530029FF01 /* CommentTableViewCell.h */,
 				F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */,
+				F59C30AE1A9D39BF0029FF01 /* TJWUser.h */,
+				F59C30AF1A9D39BF0029FF01 /* TJWUser.m */,
+				F59C30B11A9D3A570029FF01 /* TJWComment.h */,
+				F59C30B21A9D3A570029FF01 /* TJWComment.m */,
 			);
 			path = opentokdemo;
 			sourceTree = "<group>";
@@ -656,12 +666,14 @@
 				D62FD1BF1A96AAE500309390 /* NSObject+Serialize.m in Sources */,
 				D660812F1A96ABD5001D9968 /* FayeMessage.m in Sources */,
 				D64FDAB81A965E2500727EF7 /* ChoiceViewController.m in Sources */,
+				F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */,
 				F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */,
 				D61AED2C1A97D60600B2CC8B /* CommentsViewController.m in Sources */,
 				D64FDA401A964C6F00727EF7 /* main.m in Sources */,
 				D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */,
 				D62FD1BD1A96AAE500309390 /* NSDate+Serialize.m in Sources */,
 				D62FD1B01A96AA1100309390 /* NSString+FayeInflectionSupport.m in Sources */,
+				F59C30B31A9D3A570029FF01 /* TJWComment.m in Sources */,
 				D66C62831A98060500385A35 /* CreateGameViewController.m in Sources */,
 				D62FD1C41A96AB1700309390 /* ObjectiveResourceDateFormatter.m in Sources */,
 				D62FD1BC1A96AAE500309390 /* NSData+Serialize.m in Sources */,

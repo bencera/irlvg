@@ -9,6 +9,7 @@
 #import <OpenTok/OpenTok.h>
 #import "ControlsViewController.h"
 #import "CommentsViewController.h"
+#import "TJWUser.h"
 
 @interface NewSubscribeViewController ()
 <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate>
@@ -65,7 +66,7 @@ static bool subscribeToSelf = NO;
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor whiteColor];
+    _scrollView.backgroundColor = [UIColor redColor];
     [self.view addSubview:_scrollView];
     
     ControlsViewController *controlsVC = [[ControlsViewController alloc]init];
@@ -80,6 +81,7 @@ static bool subscribeToSelf = NO;
     
     self.commentsVC = commentsVC;
     commentsVC.delegate = self;
+    commentsVC.currentUser = [[TJWUser alloc] initWithName:@"Ben"];
     //commentsVC.subVC = self;
     commentsVC.view.layer.zPosition = 99;
     [_scrollView addSubview:commentsVC.view];

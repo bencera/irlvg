@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 //#import "SubscribeViewController.h"
 @class CommentsViewController;
+@class TJWComment;
+@class TJWUser;
 
 @protocol CommentsViewControllerDelegate <NSObject>
 
@@ -19,7 +21,8 @@
 
 @interface CommentsViewController : UIViewController
 
+@property (strong, nonatomic) TJWUser *currentUser;
 @property (weak, nonatomic) id<CommentsViewControllerDelegate> delegate;
-- (void)pushComment:(NSString *)text;
+- (void)pushComment:(TJWComment *)comment;
 
 @end

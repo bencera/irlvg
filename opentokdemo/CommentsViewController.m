@@ -9,11 +9,13 @@
 #import "CommentsViewController.h"
 #import "BABFrameObservingInputAccessoryView.h"
 #import "CommentTableViewCell.h"
+#import "TJWComment.h"
+#import "TJWUser.h"
 
 #define composeBoxHeight 50.f
-#define cellHeight 175.f
 #define sendMessagePlaceholder @"Send a message..."
 #define writeFirstPlaceholder @"Write something first..."
+#define NAV_BAR_HEIGHT 100.f
 
 @interface CommentsViewController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 
@@ -26,7 +28,7 @@
 @property (nonatomic) UIView *composerHolder;
 @property (nonatomic) UIButton *sendButton;
 @property (nonatomic) UIButton *composeButton;
-@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSMutableArray *comments;
 
 @end
 
@@ -37,7 +39,7 @@
     
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
-    nameLabel.text = @"Comments";
+    nameLabel.text = self.currentUser.displayName;
     nameLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:nameLabel];
     
@@ -48,7 +50,7 @@
     [self.view addSubview:settingsButton];
 
     //tableView
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.alpha = 0.7f;
@@ -61,7 +63,7 @@
     _composerHolder.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_composerHolder];
     
-    CGRect tableViewFrame = CGRectMake(0,0, self.view.bounds.size.width, _composerHolder.frame.origin.y);
+    CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, _composerHolder.frame.origin.y - NAV_BAR_HEIGHT);
     _tableView.frame = tableViewFrame;
     [self scrollToLastMessageAnimated:NO];
     
@@ -92,7 +94,7 @@
         
         if (_composeButton.hidden && frame.origin.y <= self.view.bounds.size.height - composeBoxHeight) {
             
-            CGRect tableViewFrame = CGRectMake(0,0, self.view.bounds.size.width, frame.origin.y);
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, frame.origin.y - NAV_BAR_HEIGHT);
             weakSelf.tableView.frame = tableViewFrame;
             
             CGRect composerFrame = CGRectMake(0, frame.origin.y, self.view.bounds.size.width, composeBoxHeight);
@@ -121,7 +123,7 @@
         
         [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
             
-            CGRect tableViewFrame = CGRectMake(0,0, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight);
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight - NAV_BAR_HEIGHT);
             _tableView.frame = tableViewFrame;
             
             CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height  - keyboardHeight, self.view.bounds.size.width, composeBoxHeight);
@@ -137,41 +139,30 @@
 
 }
 
-- (NSMutableArray *)messages {
-    if (!_messages) {
-        _messages = [[NSMutableArray alloc] init];
-        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];
-        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];
-        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];
-        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];
-        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];        [_messages addObject:@"Hello"];
-        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
-        [_messages addObject:@"Free Snowden"];
-        
+- (NSMutableArray *)comments {
+    if (!_comments) {
+        _comments = [[NSMutableArray alloc] init];
+        TJWComment *comment = [[TJWComment alloc] initWithMessage:@"Hello Everybody, Dr. Nick" fromUser:[[TJWUser alloc] initWithName:@"Sam"]];
+        TJWComment *second = [[TJWComment alloc] initWithMessage:@"Grammys sometime" fromUser:[[TJWUser alloc] initWithName:@"Jam"]];
+        TJWComment *third = [[TJWComment alloc] initWithMessage:@"lalalala balingo balinga dope dah fair and even all the lines and oh maybe sometime yess or no" fromUser:[[TJWUser alloc] initWithName:@"Alice"]];
+        [_comments addObjectsFromArray:@[comment, second, third]];
+        [_comments addObjectsFromArray:@[comment, second, third]];
+        [_comments addObjectsFromArray:@[comment, second, third]];
+        [_comments addObjectsFromArray:@[comment, second, third]];
+        [_comments addObjectsFromArray:@[comment, second, third]];        
     }
-    return _messages;
+    return _comments;
 }
 
-
-- (void)pushComment:(NSString *)text {
-    [self.messages addObject:text];
+- (void)pushComment:(TJWComment *)comment {
+    [self.comments addObject:comment];
     [self.tableView reloadData];
     [self scrollToLastMessageAnimated:YES];
-
 }
 
+
 - (void)scrollToLastMessageAnimated:(BOOL)animated {
-    NSIndexPath* ipath = [NSIndexPath indexPathForRow: [self.messages count]-1 inSection: 0];
+    NSIndexPath* ipath = [NSIndexPath indexPathForRow: [self.comments count]-1 inSection: 0];
     [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: animated];
 }
 
@@ -184,7 +175,8 @@
 - (void)sendButtonPressed:(UIButton *)sender {
     NSString *message = self.textView.text;
     NSLog(@"%@", message);
-    [self pushComment:message];
+    TJWComment *comment = [[TJWComment alloc] initWithMessage:message fromUser:[[TJWUser alloc] initWithName:@"Self"]];
+    [self pushComment:comment];
     [self.delegate commentsController:self didFinishTypingText:message];
 }
 
@@ -206,7 +198,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.messages count];
+    return [self.comments count];
 }
 
 
@@ -234,8 +226,11 @@
 }
 
 - (NSAttributedString *)attributedBodyTextAtIndexPath:(NSIndexPath *)path {
-    NSString *message = self.messages[path.row];
-    return [[NSAttributedString alloc] initWithString:message];
+    TJWComment *comment = self.comments[path.row];
+    NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", comment.user.displayName] attributes:@{NSForegroundColorAttributeName : [self colorForIndex:path.row]}];
+    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+    [name appendAttributedString:message];
+    return name;
 }
 
 
@@ -257,9 +252,17 @@
     return cell;
 }
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSArray *)commentColors {
+    return @[[UIColor yellowColor], [UIColor redColor], [UIColor blueColor], [UIColor greenColor], [UIColor purpleColor], [UIColor orangeColor]];
+}
+
+- (UIColor *)colorForIndex:(NSInteger)index {
+    NSInteger colorIndex = index % [[self commentColors] count];
+    return [self commentColors][colorIndex];
 }
 
 @end

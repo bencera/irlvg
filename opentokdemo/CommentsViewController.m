@@ -175,7 +175,7 @@
 - (void)sendButtonPressed:(UIButton *)sender {
     NSString *message = self.textView.text;
     NSLog(@"%@", message);
-    TJWComment *comment = [[TJWComment alloc] initWithMessage:message fromUser:[[TJWUser alloc] initWithName:@"Self"]];
+    TJWComment *comment = [[TJWComment alloc] initWithMessage:message fromUser:self.currentUser];
     [self pushComment:comment];
     [self.delegate commentsController:self didFinishTypingText:message];
 }

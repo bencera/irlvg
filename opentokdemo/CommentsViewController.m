@@ -54,11 +54,16 @@
     _tableView.alpha = 0.7f;
     _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     [self.view addSubview:_tableView];
+
     
     _composerHolder = [[UIView alloc]init];
     _composerHolder.frame = CGRectMake(0, self.view.bounds.size.height - composeBoxHeight, self.view.bounds.size.width, composeBoxHeight);
     _composerHolder.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_composerHolder];
+    
+    CGRect tableViewFrame = CGRectMake(0,0, self.view.bounds.size.width, _composerHolder.frame.origin.y);
+    _tableView.frame = tableViewFrame;
+    [self scrollToLastMessageAnimated:NO];
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _sendButton.frame = CGRectMake(self.view.bounds.size.width - 65, 4, 60, 41);
@@ -80,7 +85,7 @@
     inputView.userInteractionEnabled = NO;
     
     _textView.inputAccessoryView = inputView;
-    
+
     __weak typeof(self)weakSelf = self;
     
     inputView.inputAcessoryViewFrameChangedBlock = ^(CGRect frame){
@@ -109,8 +114,10 @@
         keyboardHeight = keyboardRect.size.height;
         
         NSDictionary *keyboardAnimationDetail = [note userInfo];
-        UIViewAnimationCurve animationCurve = [keyboardAnimationDetail[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+        UIViewAnimationCurve animationCurve = [[keyboardAnimationDetail objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+     
         CGFloat duration = [keyboardAnimationDetail[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+        
         
         [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
             
@@ -119,6 +126,8 @@
             
             CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height  - keyboardHeight, self.view.bounds.size.width, composeBoxHeight);
             _composerHolder.frame = composerFrame;
+            
+            [self scrollToLastMessageAnimated:NO];
             
         } completion:^(BOOL finished) {
             [_textView setSelectedRange:NSMakeRange(0, 0)];
@@ -134,13 +143,36 @@
         [_messages addObject:@"Hello"];
         [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
         [_messages addObject:@"Free Snowden"];
+        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];
+        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];
+        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];
+        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];
+        
     }
     return _messages;
 }
 
-- (void)pushMessageText:(NSString *)text {
+
+- (void)pushComment:(NSString *)text {
     [self.messages addObject:text];
     [self.tableView reloadData];
+    [self scrollToLastMessageAnimated:YES];
+
+}
+
+- (void)scrollToLastMessageAnimated:(BOOL)animated {
+    NSIndexPath* ipath = [NSIndexPath indexPathForRow: [self.messages count]-1 inSection: 0];
+    [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: animated];
 }
 
 -(void)showKeyboard{
@@ -152,6 +184,7 @@
 - (void)sendButtonPressed:(UIButton *)sender {
     NSString *message = self.textView.text;
     NSLog(@"%@", message);
+    [self pushComment:message];
     [self.delegate commentsController:self didFinishTypingText:message];
 }
 

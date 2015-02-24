@@ -67,11 +67,7 @@ static bool subscribeToSelf = NO;
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-<<<<<<< HEAD
     _scrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-=======
-   // _scrollView.backgroundColor = [UIColor whiteColor];
->>>>>>> 86945d9ac05d953b4a194e10c9c05762bad551c8
     [self.view addSubview:_scrollView];
     
     self.controlsVC = [[ControlsViewController alloc]init];

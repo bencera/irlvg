@@ -9,12 +9,12 @@
 #import "AppDelegate.h"
 #import "ChoiceViewController.h"
 #import "HockeySDK.h"
-#import "SubscribeViewController.h"
+//#import "SubscribeViewController.h"
 #import "NewSubscribeViewController.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic) SubscribeViewController *choiceVC;
+@property (nonatomic) NewSubscribeViewController *choiceVC;
 
 @end
 

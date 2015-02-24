@@ -8,6 +8,7 @@
 
 #import "CommentsViewController.h"
 #import "BABFrameObservingInputAccessoryView.h"
+#import "CommentTableViewCell.h"
 
 #define composeBoxHeight 50.f
 #define cellHeight 175.f
@@ -23,8 +24,9 @@
 @property UITableView *tableView;
 @property (nonatomic) UITextView* textView;
 @property (nonatomic) UIView *composerHolder;
-@property (nonatomic) UIButton *cameraButton;
+@property (nonatomic) UIButton *sendButton;
 @property (nonatomic) UIButton *composeButton;
+@property (strong, nonatomic) NSMutableArray *messages;
 
 @end
 
@@ -58,11 +60,11 @@
     _composerHolder.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_composerHolder];
     
-    _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _cameraButton.frame = CGRectMake(self.view.bounds.size.width - 65, 4, 60, 41);
-    [_cameraButton setImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
-   // [_cameraButton addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchUpInside];
-    [_composerHolder addSubview:_cameraButton];
+    _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _sendButton.frame = CGRectMake(self.view.bounds.size.width - 65, 4, 60, 41);
+    [_sendButton setImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+    [_sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_composerHolder addSubview:_sendButton];
     
     _textView = [[UITextView alloc]init];
     _textView.frame = CGRectMake(5, 6, self.view.bounds.size.width - 100, 40);
@@ -126,8 +128,19 @@
 
 }
 
+- (NSMutableArray *)messages {
+    if (!_messages) {
+        _messages = [[NSMutableArray alloc] init];
+        [_messages addObject:@"Hello"];
+        [_messages addObject:@"Yolol Dude I was saying somethign then I stoppped saying that thing and now I don't know what to do"];
+        [_messages addObject:@"Free Snowden"];
+    }
+    return _messages;
+}
+
 - (void)pushMessageText:(NSString *)text {
-    NSLog(@"Message Pushed");
+    [self.messages addObject:text];
+    [self.tableView reloadData];
 }
 
 -(void)showKeyboard{
@@ -136,6 +149,11 @@
     _composeButton.hidden = YES;
 }
 
+- (void)sendButtonPressed:(UIButton *)sender {
+    NSString *message = self.textView.text;
+    NSLog(@"%@", message);
+    [self.delegate commentsController:self didFinishTypingText:message];
+}
 
 -(void)scrollUpTableView{
    // [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(_messages.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -150,47 +168,58 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    int n = 1;
-    return n;
+    return 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    // return _streams.count;
-    return 6;
+    return [self.messages count];
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int height;
-    height = 40.f;
+    
+    CommentTableViewCell *cell = [[CommentTableViewCell alloc] init];
+    cell.textLabel.attributedText = [self attributedBodyTextAtIndexPath:indexPath];
+    
+    // Do the layout pass on the cell, which will calculate the frames for all the views based on the constraints
+    // (Note that the preferredMaxLayoutWidth is set on multi-line UILabels inside the -[layoutSubviews] method
+    // in the UITableViewCell subclass
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    
+    // Get the actual height required for the cell
+    CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    
+    // Add an extra point to the height to account for the cell separator, which is added between the bottom
+    // of the cell's contentView and the bottom of the table view cell.
+    height += 1;
+    
     return height;
+
+}
+
+- (NSAttributedString *)attributedBodyTextAtIndexPath:(NSIndexPath *)path {
+    NSString *message = self.messages[path.row];
+    return [[NSAttributedString alloc] initWithString:message];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    UITableViewCell *cell;
+    CommentTableViewCell *cell;
     
     cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
     
     if (!cell){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"commentCell"];
-        
-        UILabel *streamDescription = [[UILabel alloc]init];
-        streamDescription.frame = CGRectMake(5, 5, 240.f, 30.f);
-        streamDescription.text = @"bencera: this is really dope!";
-        streamDescription.numberOfLines = 2;
-        // streamDescription.backgroundColor = [UIColor greenColor];
-        [cell addSubview:streamDescription];
-        
+        cell = [[CommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"commentCell"];
     }
     
+    cell.textLabel.attributedText = [self attributedBodyTextAtIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
 }

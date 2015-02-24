@@ -19,9 +19,7 @@
 
 @interface CommentsViewController : UIViewController
 
-//@property (strong,nonatomic) SubscribeViewController *subVC;
 @property (weak, nonatomic) id<CommentsViewControllerDelegate> delegate;
-- (void)pushMessageText:(NSString *)text;
-
+- (void)pushComment:(NSString *)text;
 
 @end

@@ -77,6 +77,7 @@
 		D6CBD8CD1A96998300331AFD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CC1A96998300331AFD /* StoreKit.framework */; };
 		D6CBD8CF1A9699C000331AFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CE1A9699C000331AFD /* CoreData.framework */; };
 		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
+		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,8 @@
 		F07175BEF37505A312CF47EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSubscribeViewController.h; sourceTree = "<group>"; };
 		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
+		F59C30AA1A9CEB530029FF01 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +367,8 @@
 				D64FDAB71A965E2500727EF7 /* ChoiceViewController.m */,
 				D64FDA4A1A964C6F00727EF7 /* Images.xcassets */,
 				D64FDA3D1A964C6F00727EF7 /* Supporting Files */,
+				F59C30AA1A9CEB530029FF01 /* CommentTableViewCell.h */,
+				F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */,
 			);
 			path = opentokdemo;
 			sourceTree = "<group>";
@@ -651,6 +656,7 @@
 				D62FD1BF1A96AAE500309390 /* NSObject+Serialize.m in Sources */,
 				D660812F1A96ABD5001D9968 /* FayeMessage.m in Sources */,
 				D64FDAB81A965E2500727EF7 /* ChoiceViewController.m in Sources */,
+				F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */,
 				D61AED2C1A97D60600B2CC8B /* CommentsViewController.m in Sources */,
 				D64FDA401A964C6F00727EF7 /* main.m in Sources */,
 				D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */,

@@ -11,7 +11,7 @@
 #import "CommentsViewController.h"
 
 @interface NewSubscribeViewController ()
-<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate>
+<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate>
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CommentsViewController *commentsVC;
@@ -23,8 +23,6 @@
     OTPublisher* _publisher;
     OTSubscriber* _subscriber;
 }
-static double widgetHeight = 240;
-static double widgetWidth = 320;
 
 // *** Fill the following variables using your own Project info  ***
 // ***          https://dashboard.tokbox.com/projects            ***
@@ -49,7 +47,7 @@ static bool subscribeToSelf = NO;
     _session = [[OTSession alloc] initWithApiKey:kApiKey
                                        sessionId:kSessionId
                                         delegate:self];
-    [self doConnect];
+    //[self doConnect];
     
     [self addScrollView];
     
@@ -57,12 +55,17 @@ static bool subscribeToSelf = NO;
 }
 
 -(void)addScrollView{
+    
     _scrollView = [[UIScrollView alloc]init];
     _scrollView.frame = self.view.bounds;
     _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, 1);
     _scrollView.bounces = NO;
     _scrollView.pagingEnabled = YES;
     _scrollView.layer.zPosition = 99;
+    _scrollView.delegate = self;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.backgroundColor = [UIColor redColor];
     [self.view addSubview:_scrollView];
     
     ControlsViewController *controlsVC = [[ControlsViewController alloc]init];
@@ -99,14 +102,25 @@ static bool subscribeToSelf = NO;
         return YES;
     }
 }
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+}
+
 #pragma mark - CommentsViewControllerDelegate
 
 - (void)commentsController:(CommentsViewController *)controller didFinishTypingText:(NSString *)text {
-    
+    // Send Comment Upward
 }
 
 - (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller {
-    
+    [self returnToGame];
+}
+
+- (void)returnToGame {
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
 }
 
 #pragma mark - OpenTok methods

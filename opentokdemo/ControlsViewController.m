@@ -21,7 +21,7 @@
 
 @implementation ControlsViewController
 
-@synthesize subVC;
+//@synthesize subVC;
 
 @synthesize client;
 
@@ -50,11 +50,11 @@
 }
 
 -(void)back{
-    [self.subVC back];
+   // [self.subVC back];
 }
 
 -(void)goToComments{
-    [self.subVC goToComments];
+   // [self.subVC goToComments];
 }
 
 -(void)addButtons{

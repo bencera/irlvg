@@ -53,12 +53,6 @@
 		D64FDA991A965A6200727EF7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64FDA981A965A6200727EF7 /* CoreAudio.framework */; };
 		D64FDA9B1A965A7200727EF7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64FDA9A1A965A7200727EF7 /* CFNetwork.framework */; };
 		D64FDA9E1A965ABE00727EF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64FDA9C1A965A7E00727EF7 /* Security.framework */; };
-		D64FDAAD1A965B4100727EF7 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAA11A965B4100727EF7 /* TPCircularBuffer.c */; };
-		D64FDAAE1A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAA31A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.c */; };
-		D64FDAAF1A965B4100727EF7 /* SubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAA61A965B4100727EF7 /* SubscribeViewController.m */; };
-		D64FDAB01A965B4100727EF7 /* OTMoviePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAA81A965B4100727EF7 /* OTMoviePlayer.m */; };
-		D64FDAB11A965B4100727EF7 /* OTVideoMovieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAAA1A965B4100727EF7 /* OTVideoMovieReader.m */; };
-		D64FDAB21A965B4100727EF7 /* OTAudioMovieReader.m in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAAC1A965B4100727EF7 /* OTAudioMovieReader.m */; };
 		D64FDAB81A965E2500727EF7 /* ChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D64FDAB71A965E2500727EF7 /* ChoiceViewController.m */; };
 		D660812E1A96ABD5001D9968 /* FayeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D660812B1A96ABD5001D9968 /* FayeClient.m */; };
 		D660812F1A96ABD5001D9968 /* FayeMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D660812D1A96ABD5001D9968 /* FayeMessage.m */; };
@@ -82,6 +76,7 @@
 		D6CBA1D21A97E75B00061B89 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CBA1D11A97E75B00061B89 /* button.png */; };
 		D6CBD8CD1A96998300331AFD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CC1A96998300331AFD /* StoreKit.framework */; };
 		D6CBD8CF1A9699C000331AFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CE1A9699C000331AFD /* CoreData.framework */; };
+		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,18 +154,6 @@
 		D64FDA981A965A6200727EF7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		D64FDA9A1A965A7200727EF7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D64FDA9C1A965A7E00727EF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D64FDAA11A965B4100727EF7 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
-		D64FDAA21A965B4100727EF7 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
-		D64FDAA31A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
-		D64FDAA41A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
-		D64FDAA51A965B4100727EF7 /* SubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeViewController.h; sourceTree = "<group>"; };
-		D64FDAA61A965B4100727EF7 /* SubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribeViewController.m; sourceTree = "<group>"; };
-		D64FDAA71A965B4100727EF7 /* OTMoviePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMoviePlayer.h; sourceTree = "<group>"; };
-		D64FDAA81A965B4100727EF7 /* OTMoviePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMoviePlayer.m; sourceTree = "<group>"; };
-		D64FDAA91A965B4100727EF7 /* OTVideoMovieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTVideoMovieReader.h; sourceTree = "<group>"; };
-		D64FDAAA1A965B4100727EF7 /* OTVideoMovieReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTVideoMovieReader.m; sourceTree = "<group>"; };
-		D64FDAAB1A965B4100727EF7 /* OTAudioMovieReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAudioMovieReader.h; sourceTree = "<group>"; };
-		D64FDAAC1A965B4100727EF7 /* OTAudioMovieReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAudioMovieReader.m; sourceTree = "<group>"; };
 		D64FDAB61A965E2500727EF7 /* ChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceViewController.h; sourceTree = "<group>"; };
 		D64FDAB71A965E2500727EF7 /* ChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceViewController.m; sourceTree = "<group>"; };
 		D660812A1A96ABD5001D9968 /* FayeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FayeClient.h; sourceTree = "<group>"; };
@@ -200,6 +183,8 @@
 		D6CBD8CC1A96998300331AFD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D6CBD8CE1A9699C000331AFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F07175BEF37505A312CF47EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSubscribeViewController.h; sourceTree = "<group>"; };
+		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -457,18 +442,8 @@
 		D64FDAA01A965AEE00727EF7 /* Subscribe */ = {
 			isa = PBXGroup;
 			children = (
-				D64FDAA51A965B4100727EF7 /* SubscribeViewController.h */,
-				D64FDAA61A965B4100727EF7 /* SubscribeViewController.m */,
-				D64FDAA11A965B4100727EF7 /* TPCircularBuffer.c */,
-				D64FDAA21A965B4100727EF7 /* TPCircularBuffer.h */,
-				D64FDAA31A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.c */,
-				D64FDAA41A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.h */,
-				D64FDAA71A965B4100727EF7 /* OTMoviePlayer.h */,
-				D64FDAA81A965B4100727EF7 /* OTMoviePlayer.m */,
-				D64FDAA91A965B4100727EF7 /* OTVideoMovieReader.h */,
-				D64FDAAA1A965B4100727EF7 /* OTVideoMovieReader.m */,
-				D64FDAAB1A965B4100727EF7 /* OTAudioMovieReader.h */,
-				D64FDAAC1A965B4100727EF7 /* OTAudioMovieReader.m */,
+				F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */,
+				F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */,
 			);
 			name = Subscribe;
 			sourceTree = "<group>";
@@ -666,6 +641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */,
 				D62FD1C01A96AAE500309390 /* NSString+Serialize.m in Sources */,
 				D64FDA461A964C6F00727EF7 /* ViewController.m in Sources */,
 				D64FDA431A964C6F00727EF7 /* AppDelegate.m in Sources */,
@@ -673,22 +649,16 @@
 				D61AED1C1A97CB4400B2CC8B /* ControlsViewController.m in Sources */,
 				D62FD1AC1A96A9A300309390 /* NSObject+PropertySupport.m in Sources */,
 				D62FD1BF1A96AAE500309390 /* NSObject+Serialize.m in Sources */,
-				D64FDAAD1A965B4100727EF7 /* TPCircularBuffer.c in Sources */,
 				D660812F1A96ABD5001D9968 /* FayeMessage.m in Sources */,
 				D64FDAB81A965E2500727EF7 /* ChoiceViewController.m in Sources */,
 				D61AED2C1A97D60600B2CC8B /* CommentsViewController.m in Sources */,
-				D64FDAAE1A965B4100727EF7 /* TPCircularBuffer+AudioBufferList.c in Sources */,
-				D64FDAB11A965B4100727EF7 /* OTVideoMovieReader.m in Sources */,
 				D64FDA401A964C6F00727EF7 /* main.m in Sources */,
 				D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */,
 				D62FD1BD1A96AAE500309390 /* NSDate+Serialize.m in Sources */,
 				D62FD1B01A96AA1100309390 /* NSString+FayeInflectionSupport.m in Sources */,
-				D64FDAAF1A965B4100727EF7 /* SubscribeViewController.m in Sources */,
 				D66C62831A98060500385A35 /* CreateGameViewController.m in Sources */,
-				D64FDAB21A965B4100727EF7 /* OTAudioMovieReader.m in Sources */,
 				D62FD1C41A96AB1700309390 /* ObjectiveResourceDateFormatter.m in Sources */,
 				D62FD1BC1A96AAE500309390 /* NSData+Serialize.m in Sources */,
-				D64FDAB01A965B4100727EF7 /* OTMoviePlayer.m in Sources */,
 				D62FD1A71A96A98B00309390 /* NSDate-UTC.m in Sources */,
 				D660812E1A96ABD5001D9968 /* FayeClient.m in Sources */,
 			);

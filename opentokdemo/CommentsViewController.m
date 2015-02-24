@@ -33,8 +33,6 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-
-    
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
     nameLabel.text = @"Comments";

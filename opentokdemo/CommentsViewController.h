@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SubscribeViewController.h"
+//#import "SubscribeViewController.h"
 @class CommentsViewController;
 
 @protocol CommentsViewControllerDelegate <NSObject>

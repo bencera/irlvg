@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "FayeClient.h"
-#import "SubscribeViewController.h"
+//#import "SubscribeViewController.h"
 
 @interface ControlsViewController : UIViewController
 
 @property (strong,nonatomic) FayeClient *client;
 
-@property (strong,nonatomic) SubscribeViewController *subVC;
+//@property (strong,nonatomic) SubscribeViewController *subVC;
 
 @end

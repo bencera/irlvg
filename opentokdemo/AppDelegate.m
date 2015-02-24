@@ -10,6 +10,7 @@
 #import "ChoiceViewController.h"
 #import "HockeySDK.h"
 #import "SubscribeViewController.h"
+#import "NewSubscribeViewController.h"
 
 @interface AppDelegate ()
 
@@ -27,7 +28,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    _choiceVC = [[SubscribeViewController alloc]init];
+    _choiceVC = [[NewSubscribeViewController alloc]init];
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:_choiceVC];
     navVC.navigationBarHidden = YES;
     self.window.rootViewController = navVC;

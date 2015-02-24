@@ -8,13 +8,18 @@
 
 #import "ChoiceViewController.h"
 #import "ViewController.h"
-#import "SubscribeViewController.h"
+//#import "SubscribeViewController.h"
 #import "CreateGameViewController.h"
+#import "ControlsViewController.h" 
+#import "CommentsViewController.h"
+
 
 
 @interface ChoiceViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) UITableView *tableView;
+@property (nonatomic) UIScrollView *scrollView;
+
 
 @end
 
@@ -50,6 +55,33 @@
     [stream addTarget:self action:@selector(startStreaming) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:stream];
 }
+
+-(void)addScrollView{
+    _scrollView = [[UIScrollView alloc]init];
+    _scrollView.frame = self.view.bounds;
+    _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, 1);
+    _scrollView.bounces = NO;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.layer.zPosition = 99;
+    [self.view addSubview:_scrollView];
+    
+    ControlsViewController *controlsVC = [[ControlsViewController alloc]init];
+  //  controlsVC.client = self.client;
+ //   controlsVC.subVC = self;
+    controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    controlsVC.view.layer.zPosition = 99;
+    [_scrollView addSubview:controlsVC.view];
+    
+    CommentsViewController *commentsVC = [[CommentsViewController alloc]init];
+    commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    
+  //  self.commentsVC = commentsVC;
+    commentsVC.delegate = self;
+    //commentsVC.subVC = self;
+    commentsVC.view.layer.zPosition = 99;
+    [_scrollView addSubview:commentsVC.view];
+}
+
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -132,8 +164,8 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    SubscribeViewController *streamVC = [[SubscribeViewController alloc]init];
-    [self.navigationController pushViewController:streamVC animated:YES];
+  //  SubscribeViewController *streamVC = [[SubscribeViewController alloc]init];
+    ///[self.navigationController pushViewController:streamVC animated:YES];
     
 }
 

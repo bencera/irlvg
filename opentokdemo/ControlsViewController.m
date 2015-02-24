@@ -28,11 +28,11 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    UILabel *nameLabel = [[UILabel alloc]init];
-    nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 50.f);
-    nameLabel.text = @"IRL";
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:nameLabel];
+//    UILabel *nameLabel = [[UILabel alloc]init];
+//    nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 50.f);
+//    nameLabel.text = @"IRL";
+//    nameLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.view addSubview:nameLabel];
     
     
     CGFloat deviceWidth = self.view.bounds.size.width;
@@ -60,13 +60,13 @@
     
     UIButton *settingsButton = [[UIButton alloc]init];
     settingsButton.frame = CGRectMake(5, 25, 50, 50);
-    [settingsButton setImage:[UIImage imageNamed:@"list"] forState:UIControlStateNormal];
+    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
     [settingsButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:settingsButton];
     
     UIButton *commentsButton = [[UIButton alloc]init];
     commentsButton.frame = CGRectMake(self.view.bounds.size.width - 5 - 50, 25, 50, 50);
-    [commentsButton setImage:[UIImage imageNamed:@"commentB"] forState:UIControlStateNormal];
+    [commentsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
     [commentsButton addTarget:self action:@selector(goToComments) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commentsButton];
 }
@@ -81,49 +81,49 @@
 
 -(void)addButtons{
     _forwardB = [UIButton buttonWithType:UIButtonTypeCustom];
-    _forwardB.frame = CGRectMake(_border + 55, 50, 20, 40);
-    [_forwardB setBackgroundImage:[UIImage imageNamed:@"forward"] forState:UIControlStateNormal];
-    [_forwardB setBackgroundImage:[UIImage imageNamed:@"red_frame"] forState:UIControlStateSelected];
+    _forwardB.frame = CGRectMake(_border + 54, 50, 22, 40);
+    [_forwardB setBackgroundImage:nil forState:UIControlStateNormal];
+    [_forwardB setBackgroundImage:[UIImage imageNamed:@"down-updown"] forState:UIControlStateSelected];
     [_forwardB addTarget:self action:@selector(forwardAction:) forControlEvents:UIControlEventTouchUpInside];
     _forwardB.layer.zPosition = 99;
     [_controllerBG addSubview:_forwardB];
     
     _backwardB = [UIButton buttonWithType:UIButtonTypeCustom];
-    _backwardB.frame = CGRectMake(_border + 55, 110, 20, 40);
-    [_backwardB setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [_backwardB setBackgroundImage:[UIImage imageNamed:@"red_frame"] forState:UIControlStateSelected];
+    _backwardB.frame = CGRectMake(_border + 54, 110, 22, 40);
+    [_backwardB setBackgroundImage:nil forState:UIControlStateNormal];
+    [_backwardB setBackgroundImage:[UIImage imageNamed:@"down-updown"] forState:UIControlStateSelected];
     [_backwardB addTarget:self action:@selector(backwardAction:) forControlEvents:UIControlEventTouchUpInside];
     _backwardB.layer.zPosition = 99;
     [_controllerBG addSubview:_backwardB];
     
     _leftB = [UIButton buttonWithType:UIButtonTypeCustom];
-    _leftB.frame = CGRectMake(_border + 15, 90, 40, 20);
-    [_leftB setBackgroundImage:[UIImage imageNamed:@"left"] forState:UIControlStateNormal];
-    [_leftB setBackgroundImage:[UIImage imageNamed:@"vertical_red"] forState:UIControlStateSelected];
+    _leftB.frame = CGRectMake(_border + 15, 89, 40, 22);
+    [_leftB setBackgroundImage:nil forState:UIControlStateNormal];
+    [_leftB setBackgroundImage:[UIImage imageNamed:@"down-leftright"] forState:UIControlStateSelected];
     [_leftB addTarget:self action:@selector(leftAction:) forControlEvents:UIControlEventTouchUpInside];
     _leftB.layer.zPosition = 99;
     [_controllerBG addSubview:_leftB];
     
     _rightB = [UIButton buttonWithType:UIButtonTypeCustom];
-    _rightB.frame = CGRectMake(_border + 75, 90, 40, 20);
-    [_rightB setBackgroundImage:[UIImage imageNamed:@"right"] forState:UIControlStateNormal];
-    [_rightB setBackgroundImage:[UIImage imageNamed:@"vertical_red"] forState:UIControlStateSelected];
+    _rightB.frame = CGRectMake(_border + 75, 89, 40, 22);
+    [_rightB setBackgroundImage:nil forState:UIControlStateNormal];
+    [_rightB setBackgroundImage:[UIImage imageNamed:@"down-leftright"] forState:UIControlStateSelected];
     [_rightB addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
     _rightB.layer.zPosition = 99;
     [_controllerBG addSubview:_rightB];
     
     _action1B = [UIButton buttonWithType:UIButtonTypeCustom];
     _action1B.frame = CGRectMake(self.view.bounds.size.width - 100 - _border, 100.f, 50, 50);
-    [_action1B setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
-    [_action1B setBackgroundImage:[UIImage imageNamed:@"vertical_red"] forState:UIControlStateSelected];
+    [_action1B setBackgroundImage:nil forState:UIControlStateNormal];
+    [_action1B setBackgroundImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateSelected];
     [_action1B addTarget:self action:@selector(action1Action:) forControlEvents:UIControlEventTouchUpInside];
     _action1B.layer.zPosition = 99;
     [_controllerBG addSubview:_action1B];
     
     _action2B = [UIButton buttonWithType:UIButtonTypeCustom];
     _action2B.frame = CGRectMake(self.view.bounds.size.width - 60 - _border, 50, 50, 50);
-    [_action2B setBackgroundImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
-    [_action2B setBackgroundImage:[UIImage imageNamed:@"vertical_red"] forState:UIControlStateSelected];
+    [_action2B setBackgroundImage:nil forState:UIControlStateNormal];
+    [_action2B setBackgroundImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateSelected];
     [_action2B addTarget:self action:@selector(action2Action:) forControlEvents:UIControlEventTouchUpInside];
     _action2B.layer.zPosition = 99;
     [_controllerBG addSubview:_action2B];
@@ -132,13 +132,14 @@
 
 
 -(void)forwardAction:(UIButton*)button{
+    NSLog(@"here");
     button.selected = YES;
     _leftB.selected = NO;
     _rightB.selected = NO;
     _backwardB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
+    //[self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
 }
 
 -(void)leftAction:(UIButton*)button{
@@ -148,7 +149,7 @@
     _backwardB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"left"} onChannel:@"/test"];
+    //[self.client sendMessage:@{@"action" : @"left"} onChannel:@"/test"];
 }
 
 -(void)rightAction:(UIButton*)button{
@@ -158,7 +159,7 @@
     _backwardB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"right"} onChannel:@"/test"];
+    //[self.client sendMessage:@{@"action" : @"right"} onChannel:@"/test"];
 }
 
 -(void)backwardAction:(UIButton*)button{
@@ -168,7 +169,7 @@
     _leftB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"backward"} onChannel:@"/test"];
+   // [self.client sendMessage:@{@"action" : @"backward"} onChannel:@"/test"];
 }
 
 -(void)action1Action:(UIButton*)button{
@@ -178,7 +179,7 @@
     _leftB.selected = NO;
     _backwardB.selected = NO;
     _action2B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"action1"} onChannel:@"/test"];
+    //[self.client sendMessage:@{@"action" : @"action1"} onChannel:@"/test"];
 }
 
 -(void)action2Action:(UIButton*)button{
@@ -188,7 +189,7 @@
     _rightB.selected = NO;
     _backwardB.selected = NO;
     _action1B.selected = NO;
-    [self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
+    //[self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
 }
 
 

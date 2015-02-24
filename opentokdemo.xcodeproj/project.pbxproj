@@ -72,6 +72,7 @@
 		D66C629B1A9D19A500385A35 /* trackpad.png in Resources */ = {isa = PBXBuildFile; fileRef = D66C62991A9D19A500385A35 /* trackpad.png */; };
 		D66C629E1A9D25D400385A35 /* down-updown.png in Resources */ = {isa = PBXBuildFile; fileRef = D66C629C1A9D25D400385A35 /* down-updown.png */; };
 		D66C629F1A9D25D400385A35 /* down-leftright.png in Resources */ = {isa = PBXBuildFile; fileRef = D66C629D1A9D25D400385A35 /* down-leftright.png */; };
+		D66C62A11A9D2BF500385A35 /* buttonpressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D66C62A01A9D2BF500385A35 /* buttonpressed.png */; };
 		D6CBA1C31A97DEA600061B89 /* send.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CBA1C21A97DEA600061B89 /* send.png */; };
 		D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CBA1C51A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m */; };
 		D6CBA1CC1A97E60A00061B89 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CBA1C71A97E60A00061B89 /* left.png */; };
@@ -184,6 +185,7 @@
 		D66C62991A9D19A500385A35 /* trackpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trackpad.png; sourceTree = "<group>"; };
 		D66C629C1A9D25D400385A35 /* down-updown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-updown.png"; sourceTree = "<group>"; };
 		D66C629D1A9D25D400385A35 /* down-leftright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-leftright.png"; sourceTree = "<group>"; };
+		D66C62A01A9D2BF500385A35 /* buttonpressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonpressed.png; sourceTree = "<group>"; };
 		D6CBA1C21A97DEA600061B89 /* send.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send.png; sourceTree = "<group>"; };
 		D6CBA1C41A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BABFrameObservingInputAccessoryView.h; sourceTree = "<group>"; };
 		D6CBA1C51A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BABFrameObservingInputAccessoryView.m; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				D66C62981A9D19A500385A35 /* twobuttons_unpressed.png */,
+				D66C62A01A9D2BF500385A35 /* buttonpressed.png */,
 				D66C62991A9D19A500385A35 /* trackpad.png */,
 				D66C62901A9BFD6500385A35 /* list.png */,
 				D66C62961A9D107C00385A35 /* nes_controller.png */,
@@ -619,6 +622,7 @@
 				D66C629E1A9D25D400385A35 /* down-updown.png in Resources */,
 				D6CBA1D21A97E75B00061B89 /* button.png in Resources */,
 				D66C628D1A993DA900385A35 /* backB.png in Resources */,
+				D66C62A11A9D2BF500385A35 /* buttonpressed.png in Resources */,
 				D66081371A96B316001D9968 /* vertical_red.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,6 +15,7 @@
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CommentsViewController *commentsVC;
+@property (strong, nonatomic) ControlsViewController *controlsVC;
 
 @end
 
@@ -65,15 +66,15 @@ static bool subscribeToSelf = NO;
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor whiteColor];
+   // _scrollView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_scrollView];
     
-    ControlsViewController *controlsVC = [[ControlsViewController alloc]init];
-    //  controlsVC.client = self.client;
+    self.controlsVC = [[ControlsViewController alloc]init];
+    //controlsVC.client = self.client;
     //   controlsVC.subVC = self;
-    controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    controlsVC.view.layer.zPosition = 99;
-    [_scrollView addSubview:controlsVC.view];
+    self.controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    self.controlsVC.view.layer.zPosition = 99;
+    [_scrollView addSubview:self.controlsVC.view];
     
     CommentsViewController *commentsVC = [[CommentsViewController alloc]init];
     commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);

@@ -29,9 +29,9 @@
 // Replace with your OpenTok API key
 static NSString* const kApiKey = @"45159522";
 // Replace with your generated session ID
-static NSString* const kSessionId = @"1_MX40NTE1OTUyMn5-MTQyNDQ1OTgyNTM1MX5yL2VrUENYSVlhLzZORkFRRy93MDZrdmZ-fg";
+static NSString* const kSessionId = @"2_MX40NTE1OTUyMn5-MTQyNDgwOTYyMDM4MX5OUTVzVkFpbmpkMkM5bVZ3M0hDaklqdnZ-fg";
 // Replace with your generated token
-static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTE1OTUyMiZzaWc9NDE1NTI2YzJiYmQ3NjU4ZjkyOWFjNTFiY2EzNWM4Y2JjOTI1YjI5MDpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0xX01YNDBOVEUxT1RVeU1uNS1NVFF5TkRRMU9UZ3lOVE0xTVg1eUwyVnJVRU5ZU1ZsaEx6Wk9Sa0ZSUnk5M01EWnJkbVotZmcmY3JlYXRlX3RpbWU9MTQyNDQ1OTg3NCZub25jZT0wLjAxMTQyMzk3MDI5MjY5NTgxOCZleHBpcmVfdGltZT0xNDI3MDUxNzYw";
+static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTE1OTUyMiZzaWc9Yjk1ZjY5OGJlMTdkNjU5Y2JhYjI1NjU4ZGU0ZTQyNDgwNmNkYzQyYTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEUxT1RVeU1uNS1NVFF5TkRnd09UWXlNRE00TVg1T1VUVnpWa0ZwYm1wa01rTTViVlozTTBoRGFrbHFkblotZmcmY3JlYXRlX3RpbWU9MTQyNDgwOTgwMSZub25jZT0wLjE4NDEzMzU0OTM3NzIxNzUmZXhwaXJlX3RpbWU9MTQyNzQwMTU2OQ==";
 
 // Change to NO to subscribe to streams other than your own.
 static bool subscribeToSelf = NO;
@@ -47,7 +47,7 @@ static bool subscribeToSelf = NO;
     _session = [[OTSession alloc] initWithApiKey:kApiKey
                                        sessionId:kSessionId
                                         delegate:self];
-    //[self doConnect];
+    [self doConnect];
     
     [self addScrollView];
     

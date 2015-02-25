@@ -5,13 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>4747BEF8-EEC7-4DBD-A0A7-A3BA9F51DE5B</string>
+	<string>009C9B6D-16D5-46D3-B4B7-17770D58248B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>opentokdemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>925A69B50259A838F7E756378385AB1150AEBC66</key>
-		<string>https://github.com/bencera/irlvg.git</string>
+		<string>github.com:bencera/irlvg.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>opentokdemo.xcworkspace</string>
@@ -21,7 +21,7 @@
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/bencera/irlvg.git</string>
+	<string>github.com:bencera/irlvg.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>925A69B50259A838F7E756378385AB1150AEBC66</string>
 			<key>IDESourceControlWCCName</key>
-			<string>irlvg</string>
+			<string>opentokdemo</string>
 		</dict>
 	</array>
 </dict>

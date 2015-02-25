@@ -83,6 +83,7 @@
 		D6CBA1D21A97E75B00061B89 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = D6CBA1D11A97E75B00061B89 /* button.png */; };
 		D6CBD8CD1A96998300331AFD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CC1A96998300331AFD /* StoreKit.framework */; };
 		D6CBD8CF1A9699C000331AFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CBD8CE1A9699C000331AFD /* CoreData.framework */; };
+		D6E44F871A9E5EE8002D5E46 /* NameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E44F861A9E5EE8002D5E46 /* NameViewController.m */; };
 		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
 		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
 		F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AF1A9D39BF0029FF01 /* TJWUser.m */; };
@@ -199,6 +200,8 @@
 		D6CBA1D11A97E75B00061B89 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		D6CBD8CC1A96998300331AFD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D6CBD8CE1A9699C000331AFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D6E44F851A9E5EE8002D5E46 /* NameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameViewController.h; sourceTree = "<group>"; };
+		D6E44F861A9E5EE8002D5E46 /* NameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameViewController.m; sourceTree = "<group>"; };
 		F07175BEF37505A312CF47EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSubscribeViewController.h; sourceTree = "<group>"; };
 		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
@@ -473,6 +476,8 @@
 			children = (
 				F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */,
 				F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */,
+				D6E44F851A9E5EE8002D5E46 /* NameViewController.h */,
+				D6E44F861A9E5EE8002D5E46 /* NameViewController.m */,
 			);
 			name = Subscribe;
 			sourceTree = "<group>";
@@ -707,6 +712,7 @@
 				D62FD1BC1A96AAE500309390 /* NSData+Serialize.m in Sources */,
 				D62FD1A71A96A98B00309390 /* NSDate-UTC.m in Sources */,
 				D660812E1A96ABD5001D9968 /* FayeClient.m in Sources */,
+				D6E44F871A9E5EE8002D5E46 /* NameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,8 +822,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Now Labs, Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Now Labs, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Victor-Benjamin Broca (NL249P78FC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Victor-Benjamin Broca (NL249P78FC)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -830,7 +836,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fe0b157c-6b18-4b46-8696-64a07256f3ce";
+				PROVISIONING_PROFILE = "72238ca8-ebdb-4fcd-bbc3-61fee546ebec";
 				SWIFT_OBJC_BRIDGING_HEADER = "opentokdemo/opentokdemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -845,8 +851,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Now Labs, Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Now Labs, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Victor-Benjamin Broca (NL249P78FC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Victor-Benjamin Broca (NL249P78FC)";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -859,7 +865,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fe0b157c-6b18-4b46-8696-64a07256f3ce";
+				PROVISIONING_PROFILE = "72238ca8-ebdb-4fcd-bbc3-61fee546ebec";
 				SWIFT_OBJC_BRIDGING_HEADER = "opentokdemo/opentokdemo-Bridging-Header.h";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

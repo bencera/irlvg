@@ -75,13 +75,14 @@ static bool subscribeToSelf = NO;
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    //_scrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    //fuck teddy
+    //#socket
     [self.view addSubview:_scrollView];
     
     self.controlsVC = [[ControlsViewController alloc]init];
     self.controlsVC.client = self.client;
     self.controlsVC.delegate = self;
-    //   controlsVC.subVC = self;
     self.controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.controlsVC.view.layer.zPosition = 99;
     [_scrollView addSubview:self.controlsVC.view];

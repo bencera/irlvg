@@ -113,7 +113,7 @@ static bool subscribeToSelf = NO;
     [[OTPublisher alloc] initWithDelegate:self
                                      name:[[UIDevice currentDevice] name]];
     
-    //_publisher.cameraPosition = AVCaptureDevicePositionBack;
+    _publisher.cameraPosition = AVCaptureDevicePositionBack;
     
     //_publisher = [[OTPublisher alloc]initWithDelegate:self name:@"AVCaptureDevicePositionFront"];
     

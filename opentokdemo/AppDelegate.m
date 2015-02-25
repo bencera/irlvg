@@ -12,6 +12,7 @@
 //#import "SubscribeViewController.h"
 #import "NewSubscribeViewController.h"
 #import "ViewController.h"
+#import "NameViewController.h"
 
 @interface AppDelegate ()
 
@@ -35,6 +36,11 @@
     self.window.rootViewController = navVC;
     
     [self.window makeKeyAndVisible];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+        NameViewController *nameVC = [[NameViewController alloc] init];
+        [navVC presentViewController:nameVC animated:NO completion:nil];
+    }
     
     return YES;
 }

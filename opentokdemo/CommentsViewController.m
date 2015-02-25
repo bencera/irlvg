@@ -142,14 +142,14 @@
 - (NSMutableArray *)comments {
     if (!_comments) {
         _comments = [[NSMutableArray alloc] init];
-        TJWComment *comment = [[TJWComment alloc] initWithMessage:@"Hello Everybody, Dr. Nick" fromUser:[[TJWUser alloc] initWithName:@"Sam"]];
-        TJWComment *second = [[TJWComment alloc] initWithMessage:@"Grammys sometime" fromUser:[[TJWUser alloc] initWithName:@"Jam"]];
-        TJWComment *third = [[TJWComment alloc] initWithMessage:@"lalalala balingo balinga dope dah fair and even all the lines and oh maybe sometime yess or no" fromUser:[[TJWUser alloc] initWithName:@"Alice"]];
-        [_comments addObjectsFromArray:@[comment, second, third]];
-        [_comments addObjectsFromArray:@[comment, second, third]];
-        [_comments addObjectsFromArray:@[comment, second, third]];
-        [_comments addObjectsFromArray:@[comment, second, third]];
-        [_comments addObjectsFromArray:@[comment, second, third]];        
+//        TJWComment *comment = [[TJWComment alloc] initWithMessage:@"Hello Everybody, Dr. Nick" fromUser:[[TJWUser alloc] initWithName:@"Sam"]];
+//        TJWComment *second = [[TJWComment alloc] initWithMessage:@"Grammys sometime" fromUser:[[TJWUser alloc] initWithName:@"Jam"]];
+//        TJWComment *third = [[TJWComment alloc] initWithMessage:@"lalalala balingo balinga dope dah fair and even all the lines and oh maybe sometime yess or no" fromUser:[[TJWUser alloc] initWithName:@"Alice"]];
+//        [_comments addObjectsFromArray:@[comment, second, third]];
+//        [_comments addObjectsFromArray:@[comment, second, third]];
+//        [_comments addObjectsFromArray:@[comment, second, third]];
+//        [_comments addObjectsFromArray:@[comment, second, third]];
+//        [_comments addObjectsFromArray:@[comment, second, third]];        
     }
     return _comments;
 }
@@ -162,8 +162,10 @@
 
 
 - (void)scrollToLastMessageAnimated:(BOOL)animated {
-    NSIndexPath* ipath = [NSIndexPath indexPathForRow: [self.comments count]-1 inSection: 0];
-    [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: animated];
+    if ([self.comments count]) {
+        NSIndexPath* ipath = [NSIndexPath indexPathForRow: [self.comments count]-1 inSection: 0];
+        [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: animated];
+    }
 }
 
 -(void)showKeyboard{
@@ -186,6 +188,7 @@
 }
 
 -(void)backToGame{
+    [self.textView resignFirstResponder];
     [self.delegate backButtonPressedFromCommentsController:self];
 }
 

@@ -174,10 +174,10 @@
 
 - (void)sendButtonPressed:(UIButton *)sender {
     NSString *message = self.textView.text;
-    NSLog(@"%@", message);
     TJWComment *comment = [[TJWComment alloc] initWithMessage:message fromUser:self.currentUser];
     [self pushComment:comment];
-    [self.delegate commentsController:self didFinishTypingText:message];
+    [self.delegate commentsController:self didFinishTypingComment:comment];
+    self.textView.text = sendMessagePlaceholder;
 }
 
 -(void)scrollUpTableView{
@@ -263,6 +263,25 @@
 - (UIColor *)colorForIndex:(NSInteger)index {
     NSInteger colorIndex = index % [[self commentColors] count];
     return [self commentColors][colorIndex];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    NSString *newText = [self.textView.text stringByReplacingCharactersInRange:range withString:text];
+    if ([newText length] == 0) {
+        self.textView.text = sendMessagePlaceholder;
+        return NO;
+    } else {
+        if ([self.textView.text isEqualToString:sendMessagePlaceholder]) {
+            self.textView.text = text;
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+    
 }
 
 @end

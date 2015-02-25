@@ -232,7 +232,7 @@
 - (NSAttributedString *)attributedBodyTextAtIndexPath:(NSIndexPath *)path {
     TJWComment *comment = self.comments[path.row];
     NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", comment.user.displayName] attributes:@{NSForegroundColorAttributeName : [self colorForIndex:path.row]}];
-    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor whiteColorl]}];
+    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [name appendAttributedString:message];
     return name;
 }

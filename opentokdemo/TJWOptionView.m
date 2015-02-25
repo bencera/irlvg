@@ -33,8 +33,10 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = CGRectMake(0, 0, self.bounds.size.width * IMAGE_PROPORTION, self.bounds.size.height);
-    self.label.frame = CGRectMake(self.bounds.size.width * IMAGE_PROPORTION, 0, self.bounds.size.width * (1-IMAGE_PROPORTION), self.bounds.size.height);
+    CGRect imageFrame = CGRectMake(0, 0, self.bounds.size.width * IMAGE_PROPORTION, self.bounds.size.height);
+    self.imageView.frame = CGRectInset(imageFrame, 10, 10);
+    CGRect labelFrame = CGRectMake(self.bounds.size.width * IMAGE_PROPORTION, 0, self.bounds.size.width * (1-IMAGE_PROPORTION), self.bounds.size.height);
+    self.label.frame = CGRectInset(labelFrame, 0, 0);
 }
 
 @end

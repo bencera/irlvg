@@ -73,7 +73,7 @@
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _sendButton.frame = CGRectMake(self.view.bounds.size.width - 65, 4, 60, 41);
-    [_sendButton setImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+    [_sendButton setImage:[UIImage imageNamed:@"send2"] forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_composerHolder addSubview:_sendButton];
     

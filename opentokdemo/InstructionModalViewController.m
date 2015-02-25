@@ -36,12 +36,13 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
         [self.view addGestureRecognizer:tap];
         
-        NSArray *images = @[[UIImage imageNamed:@"trackpad"], [UIImage imageNamed:@"trackpad"] ,[UIImage imageNamed:@"trackpad"] ,[UIImage imageNamed:@"trackpad"] ,[UIImage imageNamed:@"trackpad"] ,[UIImage imageNamed:@"trackpad"]];
-        NSArray *strings = @[@"say hi", @"touch your toes", @"move forward", @"move backward", @"move right", @"move left"];
+        NSArray *images = @[[UIImage imageNamed:@"red_button"], [UIImage imageNamed:@"yellow_button"] ,[UIImage imageNamed:@"track_up"] ,[UIImage imageNamed:@"track_down"] ,[UIImage imageNamed:@"track_left"] ,[UIImage imageNamed:@"track_right"]];
+        NSArray *strings = @[@"say hi", @"punch", @"move forward", @"move backward", @"move left", @"move right"];
         _optionViews = [NSMutableArray array];
         for (int i=0; i<[strings count]; i++) {
             TJWOptionView *view = [[TJWOptionView alloc] initWithFrame:CGRectZero image:images[i] text:strings[i]];
             view.label.textColor = [UIColor tjw_darkBlue];
+            view.label.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
             [_optionViews addObject:view];
             [_panelView addSubview:view];
         }
@@ -51,6 +52,7 @@
         _cancelLabel.textColor = [UIColor tjw_lightBlue];
         _cancelLabel.backgroundColor = [UIColor tjw_darkBlue];
         _cancelLabel.textAlignment = NSTextAlignmentCenter;
+        _cancelLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
         [_panelView addSubview:_cancelLabel];
 
     }
@@ -65,7 +67,7 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.panelView.frame = CGRectInset(self.view.bounds, 40, 40);
+    self.panelView.frame = CGRectInset(self.view.bounds, 40, 80);
     
     CGFloat totoalHeight = self.panelView.bounds.size.height * (1-OK_HEIGHT_PROPORTION);
     CGFloat optionHeight = totoalHeight / [self.optionViews count];

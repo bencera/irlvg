@@ -96,6 +96,13 @@
 		F59C30BC1A9E63C70029FF01 /* TJWOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30BB1A9E63C70029FF01 /* TJWOptionView.m */; };
 		F59C30BF1A9E6C2A0029FF01 /* UIColor+BensFavoriteColors.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30BE1A9E6C290029FF01 /* UIColor+BensFavoriteColors.m */; };
 		F59C30C11A9E6DAD0029FF01 /* question.png in Resources */ = {isa = PBXBuildFile; fileRef = F59C30C01A9E6DAD0029FF01 /* question.png */; };
+		F59F030E1A9E757B0072AFFB /* send2.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F030D1A9E757B0072AFFB /* send2.png */; };
+		F59F03101A9E757F0072AFFB /* track_up.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F030F1A9E757F0072AFFB /* track_up.png */; };
+		F59F03121A9E758A0072AFFB /* track_left.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F03111A9E758A0072AFFB /* track_left.png */; };
+		F59F03141A9E758F0072AFFB /* track_down.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F03131A9E758F0072AFFB /* track_down.png */; };
+		F59F03161A9E75930072AFFB /* track_right.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F03151A9E75930072AFFB /* track_right.png */; };
+		F59F03181A9E769F0072AFFB /* red_button.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F03171A9E769F0072AFFB /* red_button.png */; };
+		F59F031A1A9E76A30072AFFB /* yellow_button.png in Resources */ = {isa = PBXBuildFile; fileRef = F59F03191A9E76A30072AFFB /* yellow_button.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,6 +238,13 @@
 		F59C30BD1A9E6C290029FF01 /* UIColor+BensFavoriteColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BensFavoriteColors.h"; sourceTree = "<group>"; };
 		F59C30BE1A9E6C290029FF01 /* UIColor+BensFavoriteColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BensFavoriteColors.m"; sourceTree = "<group>"; };
 		F59C30C01A9E6DAD0029FF01 /* question.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question.png; sourceTree = "<group>"; };
+		F59F030D1A9E757B0072AFFB /* send2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send2.png; sourceTree = "<group>"; };
+		F59F030F1A9E757F0072AFFB /* track_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_up.png; sourceTree = "<group>"; };
+		F59F03111A9E758A0072AFFB /* track_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_left.png; sourceTree = "<group>"; };
+		F59F03131A9E758F0072AFFB /* track_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_down.png; sourceTree = "<group>"; };
+		F59F03151A9E75930072AFFB /* track_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_right.png; sourceTree = "<group>"; };
+		F59F03171A9E769F0072AFFB /* red_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_button.png; sourceTree = "<group>"; };
+		F59F03191A9E76A30072AFFB /* yellow_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow_button.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -531,6 +545,13 @@
 		D66081301A96B264001D9968 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				F59F03171A9E769F0072AFFB /* red_button.png */,
+				F59F03191A9E76A30072AFFB /* yellow_button.png */,
+				F59F030D1A9E757B0072AFFB /* send2.png */,
+				F59F030F1A9E757F0072AFFB /* track_up.png */,
+				F59F03111A9E758A0072AFFB /* track_left.png */,
+				F59F03131A9E758F0072AFFB /* track_down.png */,
+				F59F03151A9E75930072AFFB /* track_right.png */,
 				F59C30C01A9E6DAD0029FF01 /* question.png */,
 				D6E44F881A9E66E6002D5E46 /* chat.png */,
 				D6E44F8A1A9E672D002D5E46 /* share.png */,
@@ -646,10 +667,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F59F03121A9E758A0072AFFB /* track_left.png in Resources */,
 				D66C629A1A9D19A500385A35 /* twobuttons_unpressed.png in Resources */,
 				D66C62951A9D105700385A35 /* fullcontroller.png in Resources */,
 				D6E44F891A9E66E6002D5E46 /* chat.png in Resources */,
 				D6E44F8B1A9E672D002D5E46 /* share.png in Resources */,
+				F59F030E1A9E757B0072AFFB /* send2.png in Resources */,
 				D6CBA1CE1A97E60A00061B89 /* right.png in Resources */,
 				D6CBA1CD1A97E60A00061B89 /* middle.png in Resources */,
 				D6CBA1CF1A97E60A00061B89 /* forward.png in Resources */,
@@ -663,13 +686,18 @@
 				D66081331A96B26F001D9968 /* red_frame.png in Resources */,
 				D6CBA1C31A97DEA600061B89 /* send.png in Resources */,
 				D660813B1A97B9A0001D9968 /* IMG_1166.JPG in Resources */,
+				F59F031A1A9E76A30072AFFB /* yellow_button.png in Resources */,
 				D6CBA1D01A97E60A00061B89 /* back.png in Resources */,
+				F59F03161A9E75930072AFFB /* track_right.png in Resources */,
 				D66C62911A9BFD6500385A35 /* list.png in Resources */,
 				D66C628F1A993EB700385A35 /* commentB.png in Resources */,
 				D61AED281A97D40700B2CC8B /* inbox.png in Resources */,
 				F59C30C11A9E6DAD0029FF01 /* question.png in Resources */,
+				F59F03101A9E757F0072AFFB /* track_up.png in Resources */,
+				F59F03141A9E758F0072AFFB /* track_down.png in Resources */,
 				D66C629F1A9D25D400385A35 /* down-leftright.png in Resources */,
 				D6CBA1CC1A97E60A00061B89 /* left.png in Resources */,
+				F59F03181A9E769F0072AFFB /* red_button.png in Resources */,
 				D66C629E1A9D25D400385A35 /* down-updown.png in Resources */,
 				D6CBA1D21A97E75B00061B89 /* button.png in Resources */,
 				D66C628D1A993DA900385A35 /* backB.png in Resources */,

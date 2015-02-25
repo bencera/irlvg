@@ -87,6 +87,7 @@
 		D6E44F891A9E66E6002D5E46 /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F881A9E66E6002D5E46 /* chat.png */; };
 		D6E44F8B1A9E672D002D5E46 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F8A1A9E672D002D5E46 /* share.png */; };
 		D6E44F8D1A9E6783002D5E46 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E44F8C1A9E6783002D5E46 /* MessageUI.framework */; };
+		D6E44F8F1A9E7BE6002D5E46 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F8E1A9E7BE6002D5E46 /* back.png */; };
 		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
 		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
 		F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AF1A9D39BF0029FF01 /* TJWUser.m */; };
@@ -220,6 +221,7 @@
 		D6E44F881A9E66E6002D5E46 /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat.png; sourceTree = "<group>"; };
 		D6E44F8A1A9E672D002D5E46 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D6E44F8C1A9E6783002D5E46 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D6E44F8E1A9E7BE6002D5E46 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = ../../../../../var/folders/4y/7qd4jc8d1rj5z_bbk2nxj6yh0000gn/T/com.apple.iChat/Messages/Transfers/back.png; sourceTree = "<group>"; };
 		F07175BEF37505A312CF47EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSubscribeViewController.h; sourceTree = "<group>"; };
 		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 		D66081301A96B264001D9968 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				D6E44F8E1A9E7BE6002D5E46 /* back.png */,
 				F59F03171A9E769F0072AFFB /* red_button.png */,
 				F59F03191A9E76A30072AFFB /* yellow_button.png */,
 				F59F030D1A9E757B0072AFFB /* send2.png */,
@@ -676,6 +679,7 @@
 				D6CBA1CE1A97E60A00061B89 /* right.png in Resources */,
 				D6CBA1CD1A97E60A00061B89 /* middle.png in Resources */,
 				D6CBA1CF1A97E60A00061B89 /* forward.png in Resources */,
+				D6E44F8F1A9E7BE6002D5E46 /* back.png in Resources */,
 				D66C62891A990D5B00385A35 /* icon.png in Resources */,
 				D64FDA4B1A964C6F00727EF7 /* Images.xcassets in Resources */,
 				D66C628B1A992EC900385A35 /* controller.png in Resources */,

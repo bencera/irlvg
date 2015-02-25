@@ -13,7 +13,7 @@
 #import "TJWUser.h"
 
 #define composeBoxHeight 50.f
-#define sendMessagePlaceholder @"Send a message..."
+#define sendMessagePlaceholder @"Comment..."
 #define writeFirstPlaceholder @"Write something first..."
 #define NAV_BAR_HEIGHT 100.f
 
@@ -45,16 +45,16 @@
 //    nameLabel.backgroundColor = [UIColor whiteColor];
 //    nameLabel.alpha = 0.7;
     self.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.7];
-    [self.view addSubview:nameLabel];
+  //  [self.view addSubview:nameLabel];
     
     UIButton *settingsButton = [[UIButton alloc]init];
-    settingsButton.frame = CGRectMake(5, 25, 50, 50);
-    [settingsButton setImage:[UIImage imageNamed:@"backB"] forState:UIControlStateNormal];
+    settingsButton.frame = CGRectMake(10, 30, 50, 50);
+    [settingsButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [settingsButton addTarget:self action:@selector(backToGame) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:settingsButton];
 
     //tableView
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT - composeBoxHeight) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = [UIColor clearColor];
@@ -127,7 +127,7 @@
         
         [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
             
-            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight - NAV_BAR_HEIGHT);
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight - NAV_BAR_HEIGHT - composeBoxHeight);
             _tableView.frame = tableViewFrame;
             
             CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height  - keyboardHeight, self.view.bounds.size.width, composeBoxHeight);
@@ -140,6 +140,35 @@
         }];
         [self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        CGRect keyboardRect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        keyboardRect = [self.view convertRect:keyboardRect fromView:nil]; //this is it!
+        keyboardHeight = keyboardRect.size.height;
+        
+        NSDictionary *keyboardAnimationDetail = [note userInfo];
+        UIViewAnimationCurve animationCurve = [[keyboardAnimationDetail objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+        
+        CGFloat duration = [keyboardAnimationDetail[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+        
+        
+        [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
+            
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT);
+            _tableView.frame = tableViewFrame;
+            
+            CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height - composeBoxHeight, self.view.bounds.size.width, composeBoxHeight);
+            _composerHolder.frame = composerFrame;
+            
+            [self scrollToLastMessageAnimated:NO];
+            
+        } completion:^(BOOL finished) {
+            [_textView setSelectedRange:NSMakeRange(0, 0)];
+        }];
+        [self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
+    }];
+
 
 }
 

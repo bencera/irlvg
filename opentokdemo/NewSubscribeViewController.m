@@ -87,7 +87,7 @@ static bool subscribeToSelf = NO;
     [_scrollView addSubview:self.controlsVC.view];
     
     CommentsViewController *commentsVC = [[CommentsViewController alloc]init];
-    commentsVC.currentUser = [[TJWUser alloc] initWithName:@"Ben"];
+    commentsVC.currentUser = [[TJWUser alloc] initWithName:[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]];
     commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
     self.commentsVC = commentsVC;

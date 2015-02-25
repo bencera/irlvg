@@ -10,6 +10,7 @@
 #import "ControlsViewController.h"
 #import "CommentsViewController.h"
 #import "TJWUser.h"
+#import "TJWComment.h"
 #import "FayeClient.h"
 
 @interface NewSubscribeViewController ()
@@ -120,8 +121,9 @@ static bool subscribeToSelf = NO;
 
 #pragma mark - CommentsViewControllerDelegate
 
-- (void)commentsController:(CommentsViewController *)controller didFinishTypingText:(NSString *)text {
-    // Send Comment Upward
+
+- (void)commentsController:(CommentsViewController *)controller didFinishTypingComment:(TJWComment *)comment {
+    // PUSH COMMENT TO FAYE
 }
 
 - (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller {

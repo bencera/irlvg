@@ -9,12 +9,14 @@
 #import <OpenTok/OpenTok.h>
 #import "ControlsViewController.h"
 #import "CommentsViewController.h"
+#import "InstructionModalViewController.h"
+#import "TJWModalTransitionManager.h"
 #import "TJWUser.h"
 #import "TJWComment.h"
 #import "FayeClient.h"
 
 @interface NewSubscribeViewController ()
-<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate,ControlsViewControllerDelegate>
+<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate,ControlsViewControllerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CommentsViewController *commentsVC;
@@ -395,8 +397,33 @@ didFailWithError:(OTError*)error
     NSLog(@"%@", error.description);
 }
 
+#pragma mark - ControlsControllerDelegate
 -(void)backButtonPressedFromControlsController:(ControlsViewController *)controller{
+    
     [self.scrollView scrollRectToVisible:CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, 1) animated:YES];
+}
+
+- (void)questionButtonPressedFromControlsController:(ControlsViewController *)controller {
+    InstructionModalViewController *targetViewController = [[InstructionModalViewController alloc] init];
+    targetViewController.transitioningDelegate = self;
+    targetViewController.modalTransitionStyle = UIModalPresentationCustom;
+    targetViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:targetViewController animated:YES completion:^{
+        //
+    }];
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    TJWModalTransitionManager *manager = [[TJWModalTransitionManager alloc] init];
+    manager.presenting = YES;
+    return manager;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    TJWModalTransitionManager *manager = [[TJWModalTransitionManager alloc] init];
+    return manager;
 }
 
 @end

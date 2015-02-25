@@ -87,6 +87,11 @@
 		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
 		F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AF1A9D39BF0029FF01 /* TJWUser.m */; };
 		F59C30B31A9D3A570029FF01 /* TJWComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30B21A9D3A570029FF01 /* TJWComment.m */; };
+		F59C30B61A9E5FFE0029FF01 /* TJWModalTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30B51A9E5FFE0029FF01 /* TJWModalTransitionManager.m */; };
+		F59C30B91A9E605B0029FF01 /* InstructionModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30B81A9E605B0029FF01 /* InstructionModalViewController.m */; };
+		F59C30BC1A9E63C70029FF01 /* TJWOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30BB1A9E63C70029FF01 /* TJWOptionView.m */; };
+		F59C30BF1A9E6C2A0029FF01 /* UIColor+BensFavoriteColors.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30BE1A9E6C290029FF01 /* UIColor+BensFavoriteColors.m */; };
+		F59C30C11A9E6DAD0029FF01 /* question.png in Resources */ = {isa = PBXBuildFile; fileRef = F59C30C01A9E6DAD0029FF01 /* question.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +213,15 @@
 		F59C30AF1A9D39BF0029FF01 /* TJWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWUser.m; sourceTree = "<group>"; };
 		F59C30B11A9D3A570029FF01 /* TJWComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJWComment.h; sourceTree = "<group>"; };
 		F59C30B21A9D3A570029FF01 /* TJWComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWComment.m; sourceTree = "<group>"; };
+		F59C30B41A9E5FFE0029FF01 /* TJWModalTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJWModalTransitionManager.h; sourceTree = "<group>"; };
+		F59C30B51A9E5FFE0029FF01 /* TJWModalTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWModalTransitionManager.m; sourceTree = "<group>"; };
+		F59C30B71A9E605B0029FF01 /* InstructionModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionModalViewController.h; sourceTree = "<group>"; };
+		F59C30B81A9E605B0029FF01 /* InstructionModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionModalViewController.m; sourceTree = "<group>"; };
+		F59C30BA1A9E63C70029FF01 /* TJWOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJWOptionView.h; sourceTree = "<group>"; };
+		F59C30BB1A9E63C70029FF01 /* TJWOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJWOptionView.m; sourceTree = "<group>"; };
+		F59C30BD1A9E6C290029FF01 /* UIColor+BensFavoriteColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BensFavoriteColors.h"; sourceTree = "<group>"; };
+		F59C30BE1A9E6C290029FF01 /* UIColor+BensFavoriteColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BensFavoriteColors.m"; sourceTree = "<group>"; };
+		F59C30C01A9E6DAD0029FF01 /* question.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -374,6 +388,14 @@
 		D64FDA3C1A964C6F00727EF7 /* opentokdemo */ = {
 			isa = PBXGroup;
 			children = (
+				F59C30B41A9E5FFE0029FF01 /* TJWModalTransitionManager.h */,
+				F59C30B51A9E5FFE0029FF01 /* TJWModalTransitionManager.m */,
+				F59C30B71A9E605B0029FF01 /* InstructionModalViewController.h */,
+				F59C30B81A9E605B0029FF01 /* InstructionModalViewController.m */,
+				F59C30BA1A9E63C70029FF01 /* TJWOptionView.h */,
+				F59C30BB1A9E63C70029FF01 /* TJWOptionView.m */,
+				F59C30BD1A9E6C290029FF01 /* UIColor+BensFavoriteColors.h */,
+				F59C30BE1A9E6C290029FF01 /* UIColor+BensFavoriteColors.m */,
 				D61AED291A97D5F700B2CC8B /* Comments */,
 				D61AED191A97CACC00B2CC8B /* Game Controls */,
 				D66081301A96B264001D9968 /* Ressources */,
@@ -496,6 +518,7 @@
 		D66081301A96B264001D9968 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				F59C30C01A9E6DAD0029FF01 /* question.png */,
 				D66C62981A9D19A500385A35 /* twobuttons_unpressed.png */,
 				D66C62A01A9D2BF500385A35 /* buttonpressed.png */,
 				D66C62991A9D19A500385A35 /* trackpad.png */,
@@ -627,6 +650,7 @@
 				D66C62911A9BFD6500385A35 /* list.png in Resources */,
 				D66C628F1A993EB700385A35 /* commentB.png in Resources */,
 				D61AED281A97D40700B2CC8B /* inbox.png in Resources */,
+				F59C30C11A9E6DAD0029FF01 /* question.png in Resources */,
 				D66C629F1A9D25D400385A35 /* down-leftright.png in Resources */,
 				D6CBA1CC1A97E60A00061B89 /* left.png in Resources */,
 				D66C629E1A9D25D400385A35 /* down-updown.png in Resources */,
@@ -684,6 +708,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F59C30B91A9E605B0029FF01 /* InstructionModalViewController.m in Sources */,
 				F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */,
 				D62FD1C01A96AAE500309390 /* NSString+Serialize.m in Sources */,
 				D64FDA461A964C6F00727EF7 /* ViewController.m in Sources */,
@@ -691,13 +716,16 @@
 				D62FD1BE1A96AAE500309390 /* NSDictionary+KeyTranslation.m in Sources */,
 				D61AED1C1A97CB4400B2CC8B /* ControlsViewController.m in Sources */,
 				D62FD1AC1A96A9A300309390 /* NSObject+PropertySupport.m in Sources */,
+				F59C30BF1A9E6C2A0029FF01 /* UIColor+BensFavoriteColors.m in Sources */,
 				D62FD1BF1A96AAE500309390 /* NSObject+Serialize.m in Sources */,
+				F59C30BC1A9E63C70029FF01 /* TJWOptionView.m in Sources */,
 				D660812F1A96ABD5001D9968 /* FayeMessage.m in Sources */,
 				D64FDAB81A965E2500727EF7 /* ChoiceViewController.m in Sources */,
 				F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */,
 				F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */,
 				D61AED2C1A97D60600B2CC8B /* CommentsViewController.m in Sources */,
 				D64FDA401A964C6F00727EF7 /* main.m in Sources */,
+				F59C30B61A9E5FFE0029FF01 /* TJWModalTransitionManager.m in Sources */,
 				D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */,
 				D62FD1BD1A96AAE500309390 /* NSDate+Serialize.m in Sources */,
 				D62FD1B01A96AA1100309390 /* NSString+FayeInflectionSupport.m in Sources */,

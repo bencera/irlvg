@@ -58,6 +58,12 @@
     
     [self addButtons];
     
+    UIButton *questionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [questionButton setImage:[UIImage imageNamed:@"question"] forState:UIControlStateNormal];
+    [questionButton addTarget:self action:@selector(questionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    questionButton.frame = CGRectMake(buttons.frame.origin.x + buttons.frame.size.width - 10, buttons.frame.origin.y + buttons.frame.size.height-10, 30, 30);
+    [self.controllerBG addSubview:questionButton];
+    
 //    UIButton *settingsButton = [[UIButton alloc]init];
 //    settingsButton.frame = CGRectMake(5, 25, 50, 50);
 //    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
@@ -69,6 +75,10 @@
     [commentsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
     [commentsButton addTarget:self action:@selector(goToComments) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commentsButton];
+}
+
+- (void)questionButtonPressed:(UIButton *)sender {
+    [self.delegate questionButtonPressedFromControlsController:self];
 }
 
 -(void)back{

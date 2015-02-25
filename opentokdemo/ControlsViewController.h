@@ -14,6 +14,7 @@
 @protocol ControlsViewControllerDelegate <NSObject>
 
 - (void)backButtonPressedFromControlsController:(ControlsViewController *)controller;
+- (void)questionButtonPressedFromControlsController:(ControlsViewController *)controller;
 
 @end
 

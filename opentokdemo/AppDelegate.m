@@ -37,9 +37,11 @@
     
     [self.window makeKeyAndVisible];
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
         NameViewController *nameVC = [[NameViewController alloc] init];
-        [navVC presentViewController:nameVC animated:NO completion:nil];
+        UINavigationController *navVCintro = [[UINavigationController alloc]initWithRootViewController:nameVC];
+        navVCintro.navigationBarHidden = YES;
+        [navVC presentViewController:navVCintro animated:NO completion:nil];
     }
     
     return YES;

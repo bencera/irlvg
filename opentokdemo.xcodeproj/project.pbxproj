@@ -88,6 +88,11 @@
 		D6E44F8B1A9E672D002D5E46 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F8A1A9E672D002D5E46 /* share.png */; };
 		D6E44F8D1A9E6783002D5E46 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6E44F8C1A9E6783002D5E46 /* MessageUI.framework */; };
 		D6E44F8F1A9E7BE6002D5E46 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F8E1A9E7BE6002D5E46 /* back.png */; };
+		D6E44F931A9E8439002D5E46 /* SlidesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E44F921A9E8439002D5E46 /* SlidesViewController.m */; };
+		D6E44F951A9E84B8002D5E46 /* HELP1.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F941A9E84B8002D5E46 /* HELP1.png */; };
+		D6E44F971A9E84BE002D5E46 /* HELP2.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F961A9E84BE002D5E46 /* HELP2.png */; };
+		D6E44F991A9E84C8002D5E46 /* HELP3.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F981A9E84C8002D5E46 /* HELP3.png */; };
+		D6E44F9B1A9E84CC002D5E46 /* HELP4.png in Resources */ = {isa = PBXBuildFile; fileRef = D6E44F9A1A9E84CC002D5E46 /* HELP4.png */; };
 		F59C30A91A9CE5A20029FF01 /* NewSubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */; };
 		F59C30AC1A9CEB530029FF01 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AB1A9CEB530029FF01 /* CommentTableViewCell.m */; };
 		F59C30B01A9D39BF0029FF01 /* TJWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F59C30AF1A9D39BF0029FF01 /* TJWUser.m */; };
@@ -222,6 +227,12 @@
 		D6E44F8A1A9E672D002D5E46 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D6E44F8C1A9E6783002D5E46 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D6E44F8E1A9E7BE6002D5E46 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = ../../../../../var/folders/4y/7qd4jc8d1rj5z_bbk2nxj6yh0000gn/T/com.apple.iChat/Messages/Transfers/back.png; sourceTree = "<group>"; };
+		D6E44F911A9E8439002D5E46 /* SlidesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidesViewController.h; sourceTree = "<group>"; };
+		D6E44F921A9E8439002D5E46 /* SlidesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlidesViewController.m; sourceTree = "<group>"; };
+		D6E44F941A9E84B8002D5E46 /* HELP1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HELP1.png; sourceTree = "<group>"; };
+		D6E44F961A9E84BE002D5E46 /* HELP2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HELP2.png; sourceTree = "<group>"; };
+		D6E44F981A9E84C8002D5E46 /* HELP3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HELP3.png; sourceTree = "<group>"; };
+		D6E44F9A1A9E84CC002D5E46 /* HELP4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HELP4.png; sourceTree = "<group>"; };
 		F07175BEF37505A312CF47EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSubscribeViewController.h; sourceTree = "<group>"; };
 		F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSubscribeViewController.m; sourceTree = "<group>"; };
@@ -415,6 +426,7 @@
 		D64FDA3C1A964C6F00727EF7 /* opentokdemo */ = {
 			isa = PBXGroup;
 			children = (
+				D6E44F901A9E841D002D5E46 /* intro VCs */,
 				F59C30B41A9E5FFE0029FF01 /* TJWModalTransitionManager.h */,
 				F59C30B51A9E5FFE0029FF01 /* TJWModalTransitionManager.m */,
 				F59C30B71A9E605B0029FF01 /* InstructionModalViewController.h */,
@@ -522,8 +534,6 @@
 			children = (
 				F59C30A71A9CE5A20029FF01 /* NewSubscribeViewController.h */,
 				F59C30A81A9CE5A20029FF01 /* NewSubscribeViewController.m */,
-				D6E44F851A9E5EE8002D5E46 /* NameViewController.h */,
-				D6E44F861A9E5EE8002D5E46 /* NameViewController.m */,
 			);
 			name = Subscribe;
 			sourceTree = "<group>";
@@ -547,6 +557,10 @@
 		D66081301A96B264001D9968 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				D6E44F9A1A9E84CC002D5E46 /* HELP4.png */,
+				D6E44F981A9E84C8002D5E46 /* HELP3.png */,
+				D6E44F961A9E84BE002D5E46 /* HELP2.png */,
+				D6E44F941A9E84B8002D5E46 /* HELP1.png */,
 				D6E44F8E1A9E7BE6002D5E46 /* back.png */,
 				F59F03171A9E769F0072AFFB /* red_button.png */,
 				F59F03191A9E76A30072AFFB /* yellow_button.png */,
@@ -585,6 +599,17 @@
 				D66081351A96B316001D9968 /* vertical_red.png */,
 			);
 			name = Ressources;
+			sourceTree = "<group>";
+		};
+		D6E44F901A9E841D002D5E46 /* intro VCs */ = {
+			isa = PBXGroup;
+			children = (
+				D6E44F851A9E5EE8002D5E46 /* NameViewController.h */,
+				D6E44F861A9E5EE8002D5E46 /* NameViewController.m */,
+				D6E44F911A9E8439002D5E46 /* SlidesViewController.h */,
+				D6E44F921A9E8439002D5E46 /* SlidesViewController.m */,
+			);
+			name = "intro VCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -682,14 +707,18 @@
 				D6E44F8F1A9E7BE6002D5E46 /* back.png in Resources */,
 				D66C62891A990D5B00385A35 /* icon.png in Resources */,
 				D64FDA4B1A964C6F00727EF7 /* Images.xcassets in Resources */,
+				D6E44F9B1A9E84CC002D5E46 /* HELP4.png in Resources */,
 				D66C628B1A992EC900385A35 /* controller.png in Resources */,
 				D66C62971A9D107C00385A35 /* nes_controller.png in Resources */,
 				D66C629B1A9D19A500385A35 /* trackpad.png in Resources */,
 				D61AED261A97D1B300B2CC8B /* x_button@2x.png in Resources */,
+				D6E44F991A9E84C8002D5E46 /* HELP3.png in Resources */,
+				D6E44F971A9E84BE002D5E46 /* HELP2.png in Resources */,
 				D66C62871A990B2000385A35 /* create.png in Resources */,
 				D66081331A96B26F001D9968 /* red_frame.png in Resources */,
 				D6CBA1C31A97DEA600061B89 /* send.png in Resources */,
 				D660813B1A97B9A0001D9968 /* IMG_1166.JPG in Resources */,
+				D6E44F951A9E84B8002D5E46 /* HELP1.png in Resources */,
 				F59F031A1A9E76A30072AFFB /* yellow_button.png in Resources */,
 				D6CBA1D01A97E60A00061B89 /* back.png in Resources */,
 				F59F03161A9E75930072AFFB /* track_right.png in Resources */,
@@ -776,6 +805,7 @@
 				D64FDA401A964C6F00727EF7 /* main.m in Sources */,
 				F59C30B61A9E5FFE0029FF01 /* TJWModalTransitionManager.m in Sources */,
 				D6CBA1C61A97DF1A00061B89 /* BABFrameObservingInputAccessoryView.m in Sources */,
+				D6E44F931A9E8439002D5E46 /* SlidesViewController.m in Sources */,
 				D62FD1BD1A96AAE500309390 /* NSDate+Serialize.m in Sources */,
 				D62FD1B01A96AA1100309390 /* NSString+FayeInflectionSupport.m in Sources */,
 				F59C30B31A9D3A570029FF01 /* TJWComment.m in Sources */,

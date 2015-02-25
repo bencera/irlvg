@@ -7,6 +7,7 @@
 //
 
 #import "NameViewController.h"
+#import "SlidesViewController.h"
 
 @interface NameViewController () <UITextFieldDelegate>
 
@@ -50,7 +51,10 @@
 
 -(void)enter{
     [[NSUserDefaults standardUserDefaults] setValue:_nameField.text forKey:@"username"];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    SlidesViewController *slidesVC = [[SlidesViewController alloc]init];
+    [self.navigationController pushViewController:slidesVC animated:YES];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

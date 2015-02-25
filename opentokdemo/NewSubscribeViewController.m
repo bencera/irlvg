@@ -46,6 +46,10 @@ static bool subscribeToSelf = NO;
 {
     [super viewDidLoad];
     
+    self.client = [[FayeClient alloc]initWithURLString:@"ws://irl-faye.herokuapp.com/faye" channel:@"/test"];
+    self.client.delegate = self;
+    [self.client connectToServer];
+    
     // Step 1: As the view comes into the foreground, initialize a new instance
     // of OTSession and begin the connection process.
     _session = [[OTSession alloc] initWithApiKey:kApiKey
@@ -55,9 +59,6 @@ static bool subscribeToSelf = NO;
     
     [self addScrollView];
     
-    self.client = [[FayeClient alloc]initWithURLString:@"ws://irl-faye.herokuapp.com/faye" channel:@"/test"];
-    
-    [self.client connectToServer];
     
 
 }
@@ -77,7 +78,7 @@ static bool subscribeToSelf = NO;
     [self.view addSubview:_scrollView];
     
     self.controlsVC = [[ControlsViewController alloc]init];
-    //controlsVC.client = self.client;
+    self.controlsVC.client = self.client;
     //   controlsVC.subVC = self;
     self.controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.controlsVC.view.layer.zPosition = 99;
@@ -344,17 +345,42 @@ didFailWithError:(OTError*)error
     });
 }
 
+
 #pragma mark - Faye
 
--(void)fayeClientWillSendMessage:(NSDictionary *)messageDict withCallback:(FayeClientMessageHandler)callback{}
--(void)fayeClientWillReceiveMessage:(NSDictionary *)messageDict withCallback:(FayeClientMessageHandler)callback{}
--(void)fayeClientError:(NSError *)error{}
--(void)subscriptionFailedWithError:(NSString *)error{}
--(void)connectedToServer{}
--(void)disconnectedFromServer{}
--(void)messageReceived:(NSDictionary *)messageDict channel:(NSString *)channel{}
--(void)didSubscribeToChannel:(NSString *)channel{}
--(void)didUnsubscribeFromChannel:(NSString *)channel{}
--(void)connectionFailed{}
+-(void)messageReceived:(NSDictionary *)messageDict channel:(NSString *)channel{
+    
+    NSLog(@"%@", messageDict);
+    //_actionLabel.text = messageDict[@"action"];
+}
+
+- (void)connectedToServer{
+    NSLog(@"connected");
+    
+}
+- (void)disconnectedFromServer{
+    NSLog(@"disconnected from server");
+}
+- (void)connectionFailed
+{
+    NSLog(@"connection failed!");
+}
+
+- (void)didSubscribeToChannel:(NSString *)channel{
+    NSLog(@"did sub");
+    // [self.client sendMessage:@{@"test" : @"hello"} onChannel:@"/test"];
+}
+
+- (void)didUnsubscribeFromChannel:(NSString *)channel{
+    NSLog(@"adfg");
+}
+- (void)subscriptionFailedWithError:(NSString *)error{
+    NSLog(@"subscription Failed: %@", error.description);
+}
+- (void)fayeClientError:(NSError *)error{
+    NSLog(@"%@", error.description);
+}
+
+
 
 @end

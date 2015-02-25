@@ -11,6 +11,7 @@
 #import "HockeySDK.h"
 //#import "SubscribeViewController.h"
 #import "NewSubscribeViewController.h"
+#import "ViewController.h"
 
 @interface AppDelegate ()
 

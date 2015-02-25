@@ -139,7 +139,7 @@
     _backwardB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
-    //[self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
+    [self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
 }
 
 -(void)leftAction:(UIButton*)button{
@@ -191,7 +191,6 @@
     _action1B.selected = NO;
     //[self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
 }
-
 
 
 @end

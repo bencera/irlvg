@@ -10,13 +10,15 @@
 #import "ControlsViewController.h"
 #import "CommentsViewController.h"
 #import "TJWUser.h"
+#import "FayeClient.h"
 
 @interface NewSubscribeViewController ()
-<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate>
+<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate>
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CommentsViewController *commentsVC;
 @property (strong, nonatomic) ControlsViewController *controlsVC;
+@property (strong, nonatomic) FayeClient *client;
 
 @end
 
@@ -52,6 +54,10 @@ static bool subscribeToSelf = NO;
     [self doConnect];
     
     [self addScrollView];
+    
+    self.client = [[FayeClient alloc]initWithURLString:@"ws://irl-faye.herokuapp.com/faye" channel:@"/test"];
+    
+    [self.client connectToServer];
     
 
 }
@@ -337,5 +343,18 @@ didFailWithError:(OTError*)error
         [alert show];
     });
 }
+
+#pragma mark - Faye
+
+-(void)fayeClientWillSendMessage:(NSDictionary *)messageDict withCallback:(FayeClientMessageHandler)callback{}
+-(void)fayeClientWillReceiveMessage:(NSDictionary *)messageDict withCallback:(FayeClientMessageHandler)callback{}
+-(void)fayeClientError:(NSError *)error{}
+-(void)subscriptionFailedWithError:(NSString *)error{}
+-(void)connectedToServer{}
+-(void)disconnectedFromServer{}
+-(void)messageReceived:(NSDictionary *)messageDict channel:(NSString *)channel{}
+-(void)didSubscribeToChannel:(NSString *)channel{}
+-(void)didUnsubscribeFromChannel:(NSString *)channel{}
+-(void)connectionFailed{}
 
 @end

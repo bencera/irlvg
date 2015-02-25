@@ -84,7 +84,7 @@
     _forwardB.frame = CGRectMake(_border + 54, 50, 22, 40);
     [_forwardB setBackgroundImage:nil forState:UIControlStateNormal];
     [_forwardB setBackgroundImage:[UIImage imageNamed:@"down-updown"] forState:UIControlStateSelected];
-    [_forwardB addTarget:self action:@selector(forwardAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_forwardB addTarget:self action:@selector(forwardAction) forControlEvents:UIControlEventTouchUpInside];
     _forwardB.layer.zPosition = 99;
     [_controllerBG addSubview:_forwardB];
     
@@ -92,7 +92,7 @@
     _backwardB.frame = CGRectMake(_border + 54, 110, 22, 40);
     [_backwardB setBackgroundImage:nil forState:UIControlStateNormal];
     [_backwardB setBackgroundImage:[UIImage imageNamed:@"down-updown"] forState:UIControlStateSelected];
-    [_backwardB addTarget:self action:@selector(backwardAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_backwardB addTarget:self action:@selector(backwardAction) forControlEvents:UIControlEventTouchUpInside];
     _backwardB.layer.zPosition = 99;
     [_controllerBG addSubview:_backwardB];
     
@@ -100,7 +100,7 @@
     _leftB.frame = CGRectMake(_border + 15, 89, 40, 22);
     [_leftB setBackgroundImage:nil forState:UIControlStateNormal];
     [_leftB setBackgroundImage:[UIImage imageNamed:@"down-leftright"] forState:UIControlStateSelected];
-    [_leftB addTarget:self action:@selector(leftAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_leftB addTarget:self action:@selector(leftAction) forControlEvents:UIControlEventTouchUpInside];
     _leftB.layer.zPosition = 99;
     [_controllerBG addSubview:_leftB];
     
@@ -108,7 +108,7 @@
     _rightB.frame = CGRectMake(_border + 75, 89, 40, 22);
     [_rightB setBackgroundImage:nil forState:UIControlStateNormal];
     [_rightB setBackgroundImage:[UIImage imageNamed:@"down-leftright"] forState:UIControlStateSelected];
-    [_rightB addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_rightB addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
     _rightB.layer.zPosition = 99;
     [_controllerBG addSubview:_rightB];
     
@@ -116,7 +116,7 @@
     _action1B.frame = CGRectMake(self.view.bounds.size.width - 100 - _border, 100.f, 50, 50);
     [_action1B setBackgroundImage:nil forState:UIControlStateNormal];
     [_action1B setBackgroundImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateSelected];
-    [_action1B addTarget:self action:@selector(action1Action:) forControlEvents:UIControlEventTouchUpInside];
+    [_action1B addTarget:self action:@selector(action1Action) forControlEvents:UIControlEventTouchUpInside];
     _action1B.layer.zPosition = 99;
     [_controllerBG addSubview:_action1B];
     
@@ -124,73 +124,67 @@
     _action2B.frame = CGRectMake(self.view.bounds.size.width - 60 - _border, 50, 50, 50);
     [_action2B setBackgroundImage:nil forState:UIControlStateNormal];
     [_action2B setBackgroundImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateSelected];
-    [_action2B addTarget:self action:@selector(action2Action:) forControlEvents:UIControlEventTouchUpInside];
+    [_action2B addTarget:self action:@selector(action2Action) forControlEvents:UIControlEventTouchUpInside];
     _action2B.layer.zPosition = 99;
     [_controllerBG addSubview:_action2B];
     
 }
 
-
--(void)forwardAction:(UIButton*)button{
-    NSLog(@"here");
-    button.selected = YES;
+-(void)unselectAllButtonsExcept:(UIButton*)button{
+    _forwardB.selected = NO;
     _leftB.selected = NO;
     _rightB.selected = NO;
     _backwardB.selected = NO;
     _action1B.selected = NO;
     _action2B.selected = NO;
+    button.selected = YES;
+}
+
+-(void)forwardAction{
+    [self unselectAllButtonsExcept:_forwardB];
     [self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
 }
 
--(void)leftAction:(UIButton*)button{
-    button.selected = YES;
-    _forwardB.selected = NO;
-    _rightB.selected = NO;
-    _backwardB.selected = NO;
-    _action1B.selected = NO;
-    _action2B.selected = NO;
-    //[self.client sendMessage:@{@"action" : @"left"} onChannel:@"/test"];
+-(void)leftAction{
+    [self unselectAllButtonsExcept:_leftB];
+    [self.client sendMessage:@{@"action" : @"left"} onChannel:@"/test"];
 }
 
--(void)rightAction:(UIButton*)button{
-    button.selected = YES;
-    _forwardB.selected = NO;
-    _leftB.selected = NO;
-    _backwardB.selected = NO;
-    _action1B.selected = NO;
-    _action2B.selected = NO;
-    //[self.client sendMessage:@{@"action" : @"right"} onChannel:@"/test"];
+-(void)rightAction{
+    [self unselectAllButtonsExcept:_rightB];
+    [self.client sendMessage:@{@"action" : @"right"} onChannel:@"/test"];
 }
 
--(void)backwardAction:(UIButton*)button{
-    button.selected = YES;
-    _forwardB.selected = NO;
-    _rightB.selected = NO;
-    _leftB.selected = NO;
-    _action1B.selected = NO;
-    _action2B.selected = NO;
-   // [self.client sendMessage:@{@"action" : @"backward"} onChannel:@"/test"];
+-(void)backwardAction{
+    [self unselectAllButtonsExcept:_backwardB];
+    [self.client sendMessage:@{@"action" : @"backward"} onChannel:@"/test"];
 }
 
--(void)action1Action:(UIButton*)button{
-    button.selected = YES;
-    _forwardB.selected = NO;
-    _rightB.selected = NO;
-    _leftB.selected = NO;
-    _backwardB.selected = NO;
-    _action2B.selected = NO;
-    //[self.client sendMessage:@{@"action" : @"action1"} onChannel:@"/test"];
+-(void)action1Action{
+    [self unselectAllButtonsExcept:_action1B];
+    [self.client sendMessage:@{@"action" : @"action1"} onChannel:@"/test"];
 }
 
--(void)action2Action:(UIButton*)button{
-    button.selected = YES;
-    _forwardB.selected = NO;
-    _leftB.selected = NO;
-    _rightB.selected = NO;
-    _backwardB.selected = NO;
-    _action1B.selected = NO;
-    //[self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
+-(void)action2Action{
+    [self unselectAllButtonsExcept:_action2B];
+    [self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
 }
 
+
+- (void)pushAction:(NSDictionary*)action{
+    if ([action[@"action"] isEqualToString:@"forward"]) {
+        [self unselectAllButtonsExcept:_forwardB];
+    } else if ([action[@"action"] isEqualToString:@"backward"]){
+        [self unselectAllButtonsExcept:_backwardB];
+    } else if ([action[@"action"] isEqualToString:@"left"]){
+        [self unselectAllButtonsExcept:_leftB];
+    } else if ([action[@"action"] isEqualToString:@"right"]){
+        [self unselectAllButtonsExcept:_rightB];
+    } else if ([action[@"action"] isEqualToString:@"action1"]){
+        [self unselectAllButtonsExcept:_action1B];
+    } else if ([action[@"action"] isEqualToString:@"action2"]){
+        [self unselectAllButtonsExcept:_action2B];
+    }
+}
 
 @end

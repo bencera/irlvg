@@ -124,6 +124,7 @@ static bool subscribeToSelf = NO;
 
 - (void)commentsController:(CommentsViewController *)controller didFinishTypingComment:(TJWComment *)comment {
     // PUSH COMMENT TO FAYE
+    [self.client sendMessage:@{@"message" : comment.message, @"user" : comment.user.name} onChannel:@"/test"];
 }
 
 - (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller {
@@ -353,7 +354,14 @@ didFailWithError:(OTError*)error
 -(void)messageReceived:(NSDictionary *)messageDict channel:(NSString *)channel{
     
     NSLog(@"%@", messageDict);
-    //_actionLabel.text = messageDict[@"action"];
+    if (messageDict[@"action"]) {
+        [self.controlsVC pushAction:messageDict];
+    } else{
+        TJWUser *user = [[TJWUser alloc]initWithName:messageDict[@"user"]];
+        TJWComment *comment = [[TJWComment alloc]initWithMessage:messageDict[@"message"] fromUser:user];
+        [self.commentsVC pushComment:comment];
+    }
+    
 }
 
 - (void)connectedToServer{

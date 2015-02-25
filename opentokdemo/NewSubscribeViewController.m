@@ -82,7 +82,6 @@ static bool subscribeToSelf = NO;
     self.controlsVC = [[ControlsViewController alloc]init];
     self.controlsVC.client = self.client;
     self.controlsVC.delegate = self;
-    //   controlsVC.subVC = self;
     self.controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.controlsVC.view.layer.zPosition = 99;
     [_scrollView addSubview:self.controlsVC.view];

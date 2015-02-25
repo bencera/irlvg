@@ -7,8 +7,9 @@
 //
 
 #import "ControlsViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface ControlsViewController ()
+@interface ControlsViewController ()<MFMessageComposeViewControllerDelegate>
 
 @property (nonatomic) UIButton *forwardB;
 @property (nonatomic) UIButton *backwardB;
@@ -58,22 +59,52 @@
     
     [self addButtons];
     
-//    UIButton *settingsButton = [[UIButton alloc]init];
-//    settingsButton.frame = CGRectMake(5, 25, 50, 50);
-//    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
-//    //[settingsButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:settingsButton];
+    UIButton *settingsButton = [[UIButton alloc]init];
+    settingsButton.frame = CGRectMake(10, 30, 50, 50);
+    [settingsButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+    [settingsButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:settingsButton];
     
     UIButton *commentsButton = [[UIButton alloc]init];
-    commentsButton.frame = CGRectMake(self.view.bounds.size.width - 5 - 50, 25, 50, 50);
-    [commentsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
+    commentsButton.frame = CGRectMake(self.view.bounds.size.width - 10 - 50, 30, 50, 50);
+    [commentsButton setImage:[UIImage imageNamed:@"chat"] forState:UIControlStateNormal];
     [commentsButton addTarget:self action:@selector(goToComments) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commentsButton];
 }
 
--(void)back{
-   // [self.subVC back];
+
+-(void)share{
+    NSLog(@"here");
+    
+    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+    if([MFMessageComposeViewController canSendText])
+    {
+        controller.body = @"GTA meets live streaming wutttt http://tinyurl.com/irlappbeta";
+        controller.recipients = [NSArray arrayWithObjects: nil];
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+    
 }
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            NSLog(@"Cancelled");
+            break;
+        case MessageComposeResultFailed:
+            break;
+        case MessageComposeResultSent:
+            
+            break;
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 -(void)goToComments{
     [self.delegate backButtonPressedFromControlsController:self];

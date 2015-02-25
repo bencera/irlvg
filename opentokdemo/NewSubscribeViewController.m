@@ -75,7 +75,6 @@ static bool subscribeToSelf = NO;
     _scrollView.delegate = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self.view addSubview:_scrollView];
     
     self.controlsVC = [[ControlsViewController alloc]init];
@@ -118,6 +117,10 @@ static bool subscribeToSelf = NO;
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.scrollView) {
+        [self.commentsVC resignKeyboard];
+
+    }
 }
 
 #pragma mark - CommentsViewControllerDelegate

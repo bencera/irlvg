@@ -41,6 +41,10 @@
     nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
     nameLabel.text = self.currentUser.displayName;
     nameLabel.textAlignment = NSTextAlignmentCenter;
+    nameLabel.textColor = [UIColor darkTextColor];
+//    nameLabel.backgroundColor = [UIColor whiteColor];
+//    nameLabel.alpha = 0.7;
+    self.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.7];
     [self.view addSubview:nameLabel];
     
     UIButton *settingsButton = [[UIButton alloc]init];
@@ -53,7 +57,7 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.alpha = 0.7f;
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     [self.view addSubview:_tableView];
 
@@ -231,7 +235,7 @@
 - (NSAttributedString *)attributedBodyTextAtIndexPath:(NSIndexPath *)path {
     TJWComment *comment = self.comments[path.row];
     NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", comment.user.displayName] attributes:@{NSForegroundColorAttributeName : [self colorForIndex:path.row]}];
-    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [name appendAttributedString:message];
     return name;
 }
@@ -247,7 +251,7 @@
     if (!cell){
         cell = [[CommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"commentCell"];
     }
-    
+    cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.attributedText = [self attributedBodyTextAtIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -266,6 +270,10 @@
 - (UIColor *)colorForIndex:(NSInteger)index {
     NSInteger colorIndex = index % [[self commentColors] count];
     return [self commentColors][colorIndex];
+}
+
+- (void)resignKeyboard {
+    [self.textView resignFirstResponder];
 }
 
 #pragma mark - UITextViewDelegate

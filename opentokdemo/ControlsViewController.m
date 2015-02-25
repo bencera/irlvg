@@ -91,6 +91,8 @@
 
 -(void)back{
    // [self.subVC back];
+    
+}
 
 -(void)share{
     NSLog(@"here");

@@ -576,7 +576,7 @@
 				TargetAttributes = {
 					D64FDA391A964C6F00727EF7 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = Y9C92UBHHK;
+						DevelopmentTeam = 4MWH7JP9TK;
 					};
 					D64FDA521A964C6F00727EF7 = {
 						CreatedOnToolsVersion = 6.1;
@@ -816,8 +816,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Now Labs, Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Now Labs, Inc";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -830,7 +830,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "fe0b157c-6b18-4b46-8696-64a07256f3ce";
 				SWIFT_OBJC_BRIDGING_HEADER = "opentokdemo/opentokdemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -845,8 +845,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Now Labs, Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Now Labs, Inc";
 				DEFINES_MODULE = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -859,7 +859,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "fe0b157c-6b18-4b46-8696-64a07256f3ce";
 				SWIFT_OBJC_BRIDGING_HEADER = "opentokdemo/opentokdemo-Bridging-Header.h";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

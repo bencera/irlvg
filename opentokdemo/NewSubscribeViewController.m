@@ -14,7 +14,7 @@
 #import "FayeClient.h"
 
 @interface NewSubscribeViewController ()
-<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate>
+<OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate,ControlsViewControllerDelegate>
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CommentsViewController *commentsVC;
@@ -80,6 +80,7 @@ static bool subscribeToSelf = NO;
     
     self.controlsVC = [[ControlsViewController alloc]init];
     self.controlsVC.client = self.client;
+    self.controlsVC.delegate = self;
     //   controlsVC.subVC = self;
     self.controlsVC.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.controlsVC.view.layer.zPosition = 99;
@@ -127,7 +128,7 @@ static bool subscribeToSelf = NO;
     [self.client sendMessage:@{@"message" : comment.message, @"user" : comment.user.name} onChannel:@"/test"];
 }
 
-- (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller {
+- (void)backButtonPressedFromCommentsController:(CommentsViewController *)controller {
     [self returnToGame];
 }
 
@@ -391,6 +392,8 @@ didFailWithError:(OTError*)error
     NSLog(@"%@", error.description);
 }
 
-
+-(void)backButtonPressedFromControlsController:(ControlsViewController *)controller{
+    [self.scrollView scrollRectToVisible:CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, 1) animated:YES];
+}
 
 @end

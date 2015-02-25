@@ -15,7 +15,7 @@
 @protocol CommentsViewControllerDelegate <NSObject>
 
 - (void)commentsController:(CommentsViewController *)controller didFinishTypingComment:(TJWComment *)comment;
-- (void)backButtonPressedFromCommeentsController:(CommentsViewController *)controller;
+- (void)backButtonPressedFromCommentsController:(CommentsViewController *)controller;
 
 @end
 

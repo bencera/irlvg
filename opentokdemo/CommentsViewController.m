@@ -186,7 +186,7 @@
 }
 
 -(void)backToGame{
-    [self.delegate backButtonPressedFromCommeentsController:self];
+    [self.delegate backButtonPressedFromCommentsController:self];
 }
 
 #pragma mark - TableView functions

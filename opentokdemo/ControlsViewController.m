@@ -58,11 +58,11 @@
     
     [self addButtons];
     
-    UIButton *settingsButton = [[UIButton alloc]init];
-    settingsButton.frame = CGRectMake(5, 25, 50, 50);
-    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
-    [settingsButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:settingsButton];
+//    UIButton *settingsButton = [[UIButton alloc]init];
+//    settingsButton.frame = CGRectMake(5, 25, 50, 50);
+//    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
+//    //[settingsButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:settingsButton];
     
     UIButton *commentsButton = [[UIButton alloc]init];
     commentsButton.frame = CGRectMake(self.view.bounds.size.width - 5 - 50, 25, 50, 50);
@@ -76,7 +76,7 @@
 }
 
 -(void)goToComments{
-   // [self.subVC goToComments];
+    [self.delegate backButtonPressedFromControlsController:self];
 }
 
 -(void)addButtons{

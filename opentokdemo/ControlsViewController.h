@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "FayeClient.h"
-//#import "SubscribeViewController.h"
+
+@class ControlsViewController;
+
+@protocol ControlsViewControllerDelegate <NSObject>
+
+- (void)backButtonPressedFromControlsController:(ControlsViewController *)controller;
+
+@end
+
 
 @interface ControlsViewController : UIViewController
 
 @property (strong,nonatomic) FayeClient *client;
+@property (weak, nonatomic) id<ControlsViewControllerDelegate> delegate;
 
 //@property (strong,nonatomic) SubscribeViewController *subVC;
 

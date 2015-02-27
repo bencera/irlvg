@@ -31,17 +31,15 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     _choiceVC = [[NewSubscribeViewController alloc]init];
-    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:_choiceVC];
-    navVC.navigationBarHidden = YES;
-    self.window.rootViewController = navVC;
+    self.window.rootViewController = _choiceVC;
     
     [self.window makeKeyAndVisible];
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
         NameViewController *nameVC = [[NameViewController alloc] init];
         UINavigationController *navVCintro = [[UINavigationController alloc]initWithRootViewController:nameVC];
         navVCintro.navigationBarHidden = YES;
-        [navVC presentViewController:navVCintro animated:NO completion:nil];
+        [_choiceVC presentViewController:navVCintro animated:NO completion:nil];
     }
     
     return YES;
@@ -65,6 +63,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    [_choiceVC.commentsVC downloadComments];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

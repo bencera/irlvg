@@ -14,14 +14,14 @@
 #import "TJWUser.h"
 #import "TJWComment.h"
 #import "FayeClient.h"
+#import "AFNetworking.h"
 
 @interface NewSubscribeViewController ()
 <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate, CommentsViewControllerDelegate, UIScrollViewDelegate,FayeClientDelegate,ControlsViewControllerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) CommentsViewController *commentsVC;
-@property (strong, nonatomic) ControlsViewController *controlsVC;
 @property (strong, nonatomic) FayeClient *client;
+@property (strong, nonatomic) NSMutableArray *actionVotes;
 
 @end
 
@@ -31,23 +31,31 @@
     OTSubscriber* _subscriber;
 }
 
+@synthesize commentsVC;
+@synthesize controlsVC;
+
 // *** Fill the following variables using your own Project info  ***
 // ***          https://dashboard.tokbox.com/projects            ***
 // Replace with your OpenTok API key
 static NSString* const kApiKey = @"45159522";
 // Replace with your generated session ID
 static NSString* const kSessionId = @"2_MX40NTE1OTUyMn5-MTQyNDgwOTYyMDM4MX5OUTVzVkFpbmpkMkM5bVZ3M0hDaklqdnZ-fg";
-// Replace with your generated token
-static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTE1OTUyMiZzaWc9Yjk1ZjY5OGJlMTdkNjU5Y2JhYjI1NjU4ZGU0ZTQyNDgwNmNkYzQyYTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEUxT1RVeU1uNS1NVFF5TkRnd09UWXlNRE00TVg1T1VUVnpWa0ZwYm1wa01rTTViVlozTTBoRGFrbHFkblotZmcmY3JlYXRlX3RpbWU9MTQyNDgwOTgwMSZub25jZT0wLjE4NDEzMzU0OTM3NzIxNzUmZXhwaXJlX3RpbWU9MTQyNzQwMTU2OQ==";
+// Subscriber
+//static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTE1OTUyMiZzaWc9Yjk1ZjY5OGJlMTdkNjU5Y2JhYjI1NjU4ZGU0ZTQyNDgwNmNkYzQyYTpyb2xlPXN1YnNjcmliZXImc2Vzc2lvbl9pZD0yX01YNDBOVEUxT1RVeU1uNS1NVFF5TkRnd09UWXlNRE00TVg1T1VUVnpWa0ZwYm1wa01rTTViVlozTTBoRGFrbHFkblotZmcmY3JlYXRlX3RpbWU9MTQyNDgwOTgwMSZub25jZT0wLjE4NDEzMzU0OTM3NzIxNzUmZXhwaXJlX3RpbWU9MTQyNzQwMTU2OQ==";
+// Publisher
+static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTE1OTUyMiZzaWc9NmU5MjUzNTc1N2Y0M2EyOGQ3N2M1NWZlOTE2NWNlOWUyZTA0MTMzODpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5URTFPVFV5TW41LU1UUXlORGd3T1RZeU1ETTRNWDVPVVRWelZrRnBibXBrTWtNNWJWWjNNMGhEYWtscWRuWi1mZyZjcmVhdGVfdGltZT0xNDI0ODA5NjU5Jm5vbmNlPTAuMDAyMzI0ODI5MDMwODkyODE2NiZleHBpcmVfdGltZT0xNDI3NDAxNTY5";
 
 // Change to NO to subscribe to streams other than your own.
 static bool subscribeToSelf = NO;
+static bool publishing = YES;
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _actionVotes = [[NSMutableArray alloc] init];
     
     self.client = [[FayeClient alloc]initWithURLString:@"ws://irl-faye.herokuapp.com/faye" channel:@"/test"];
     self.client.delegate = self;
@@ -62,8 +70,26 @@ static bool subscribeToSelf = NO;
     
     [self addScrollView];
     
-    
+    if (publishing) {
+        [NSTimer scheduledTimerWithTimeInterval:6.0 target:self selector:@selector(voteCountAndDisplay) userInfo:nil repeats:YES];
+    }
 
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[AFHTTPRequestOperationManager manager] GET:@"https://irl-backend.herokuapp.com/is_streaming" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject[@"is_streaming"]intValue] == 0) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:@"No broadcasting at the moment. We'll ping you when the suscriber turns back live!" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+    }];
 }
 
 -(void)addScrollView{
@@ -86,20 +112,15 @@ static bool subscribeToSelf = NO;
     self.controlsVC.view.layer.zPosition = 99;
     [_scrollView addSubview:self.controlsVC.view];
     
-    CommentsViewController *commentsVC = [[CommentsViewController alloc]init];
-    commentsVC.currentUser = [[TJWUser alloc] initWithName:[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]];
-    commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    self.commentsVC = [[CommentsViewController alloc]init];
+    self.commentsVC.currentUser = [[TJWUser alloc] initWithName:[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]];
+    self.commentsVC.view.frame = CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
     self.commentsVC = commentsVC;
-    commentsVC.delegate = self;
+    self.commentsVC.delegate = self;
     //commentsVC.subVC = self;
-    commentsVC.view.layer.zPosition = 99;
-    [_scrollView addSubview:commentsVC.view];
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
+    self.commentsVC.view.layer.zPosition = 99;
+    [_scrollView addSubview:self.commentsVC.view];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:
@@ -165,9 +186,11 @@ static bool subscribeToSelf = NO;
  */
 - (void)doPublish
 {
+    
     _publisher =
     [[OTPublisher alloc] initWithDelegate:self
                                      name:[[UIDevice currentDevice] name]];
+    _publisher.cameraPosition = AVCaptureDevicePositionBack;
    
     OTError *error = nil;
     [_session publish:_publisher error:&error];
@@ -177,6 +200,7 @@ static bool subscribeToSelf = NO;
     }
     
     [self.view addSubview:_publisher.view];
+    _publisher.view.userInteractionEnabled = NO;
     [_publisher.view setFrame:self.view.bounds];
 }
 
@@ -228,7 +252,9 @@ static bool subscribeToSelf = NO;
     
     // Step 2: We have successfully connected, now instantiate a publisher and
     // begin pushing A/V streams into OpenTok.
-    //[self doPublish];
+    if (publishing) {
+        [self doPublish];
+    }
 }
 
 - (void)sessionDidDisconnect:(OTSession*)session
@@ -249,7 +275,9 @@ static bool subscribeToSelf = NO;
     // have seen on the OpenTok session.
     if (nil == _subscriber && !subscribeToSelf)
     {
-        [self doSubscribe:stream];
+        if (!publishing) {
+            [self doSubscribe:stream];            
+        }
     }
 }
 
@@ -312,6 +340,8 @@ didFailWithError:(OTError*)error
 - (void)publisher:(OTPublisherKit *)publisher
     streamCreated:(OTStream *)stream
 {
+    
+    NSLog(@"sub");
     // Step 3b: (if YES == subscribeToSelf): Our own publisher is now visible to
     // all participants in the OpenTok session. We will attempt to subscribe to
     // our own stream. Expect to see a slight delay in the subscriber video and
@@ -354,17 +384,101 @@ didFailWithError:(OTError*)error
 }
 
 
+#pragma mark - action voting
+
+- (void)voteCountAndDisplay{
+    
+    NSLog(@"ok");
+    int forwardCount = 0;
+    int leftCount = 0;
+    int rightCount = 0;
+    int backCount = 0;
+    int action1Count = 0;
+    int action2Count = 0;
+
+    for (NSString*vote in _actionVotes) {
+        if ([vote isEqualToString:@"forward"]) {
+            forwardCount += 1;
+        } else if ([vote isEqualToString:@"left"]){
+            leftCount += 1;
+        } else if ([vote isEqualToString:@"right"]){
+            rightCount += 1;
+        } else if ([vote isEqualToString:@"backward"]){
+            backCount += 1;
+        } else if ([vote isEqualToString:@"action1"]){
+            action1Count += 1;
+        } else if ([vote isEqualToString:@"action2"]){
+            action2Count += 1;
+        }
+    }
+    
+    int max_votes = 0;
+    NSString *voteName = @"";
+    if (forwardCount > max_votes) {
+        max_votes = forwardCount;
+        voteName = [NSString stringWithFormat:@"FORWARD (%d votes)", forwardCount];
+        if (forwardCount == 1) {
+            voteName = @"WALK FORWARD (1 vote)";
+        }
+    }
+    if (leftCount > max_votes){
+        max_votes = leftCount;
+        voteName = [NSString stringWithFormat:@"LEFT (%d votes)", leftCount];
+        if (leftCount == 1) {
+            voteName = @"TURN LEFT (1 vote)";
+        }
+    }
+    if (rightCount > max_votes){
+        max_votes = rightCount;
+        voteName = [NSString stringWithFormat:@"RIGHT (%d votes)", rightCount];
+        if (rightCount == 1) {
+            voteName = @"TURN RIGHT (1 vote)";
+        }
+    }
+    if (backCount > max_votes){
+        max_votes = backCount;
+        voteName = [NSString stringWithFormat:@"BACKWARD (%d votes)", backCount];
+        if (backCount == 1) {
+            voteName = @"TURN AROUND (1 vote)";
+        }
+    }
+    if (action1Count > max_votes){
+        max_votes = action1Count;
+        voteName = [NSString stringWithFormat:@"SAY HI (%d votes)", action1Count];
+        if (action1Count == 1) {
+            voteName = @"SAY HI (1 vote)";
+        }
+    }
+    if (action2Count > max_votes){
+        max_votes = action2Count;
+        voteName = [NSString stringWithFormat:@"THUMBS UP (%d votes)", action2Count];
+        if (action2Count == 1) {
+            voteName = @"THUMBS UP (1 vote)";
+        }
+    }
+    
+    [self.client sendMessage:@{@"main_action" : voteName} onChannel:@"/test"];
+    
+    _actionVotes = [[NSMutableArray alloc]init];
+}
+
 #pragma mark - Faye
 
 -(void)messageReceived:(NSDictionary *)messageDict channel:(NSString *)channel{
     
     NSLog(@"%@", messageDict);
-    if (messageDict[@"action"]) {
-        [self.controlsVC pushAction:messageDict];
+    if (messageDict[@"main_action"]) {
+        [self.controlsVC pushMainAction:messageDict[@"main_action"]];
+    }
+    else if (messageDict[@"action"]) {
+        //[self.controlsVC pushAction:messageDict];
+        [_actionVotes addObject:messageDict[@"action"]];
+        
     } else{
         TJWUser *user = [[TJWUser alloc]initWithName:messageDict[@"user"]];
         TJWComment *comment = [[TJWComment alloc]initWithMessage:messageDict[@"message"] fromUser:user];
         [self.commentsVC pushComment:comment];
+        [self.controlsVC pushComment:[NSString stringWithFormat:@"%@: %@", messageDict[@"user"], messageDict[@"message"]]];
     }
     
 }

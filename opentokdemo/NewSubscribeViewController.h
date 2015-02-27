@@ -6,7 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentsViewController.h"
+#import "ControlsViewController.h"
 
 @interface NewSubscribeViewController : UIViewController
+
+@property (strong, nonatomic) CommentsViewController *commentsVC;
+@property (strong, nonatomic) ControlsViewController *controlsVC;
+
 
 @end

@@ -10,7 +10,11 @@
 #import <MessageUI/MessageUI.h>
 
 @interface ControlsViewController ()<MFMessageComposeViewControllerDelegate>
-
+{
+    BOOL finished;
+    BOOL actionFinished;
+    BOOL hasVoted;
+}
 @property (nonatomic) UIButton *forwardB;
 @property (nonatomic) UIButton *backwardB;
 @property (nonatomic) UIButton *leftB;
@@ -19,6 +23,9 @@
 @property (nonatomic) UIButton *action2B;
 @property (nonatomic) UIView *controllerBG;
 @property (nonatomic) CGFloat border;
+@property (nonatomic) UILabel *lastMessage;
+@property (nonatomic) UILabel *lastAction;
+
 
 @end
 
@@ -29,23 +36,38 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-//    UILabel *nameLabel = [[UILabel alloc]init];
-//    nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 50.f);
-//    nameLabel.text = @"IRL";
-//    nameLabel.textAlignment = NSTextAlignmentCenter;
-//    [self.view addSubview:nameLabel];
-    
-    
     CGFloat deviceWidth = self.view.bounds.size.width;
     _border = 20.f;
     if (deviceWidth > 320.f) {
         _border = 35.f;
     }
     
+    hasVoted = NO;
+    
     _controllerBG = [[UIView alloc]init];
-    _controllerBG.frame = CGRectMake(0, self.view.bounds.size.height - 200.f, self.view.bounds.size.width, self.view.bounds.size.height);
+    _controllerBG.frame = CGRectMake(0, self.view.bounds.size.height - 200.f, self.view.bounds.size.width, 200.f);
     _controllerBG.backgroundColor = [UIColor colorWithRed:232/255.f green:240.f/255.f blue:246/255.f alpha:0.9f];
     [self.view addSubview:_controllerBG];
+    
+    _lastMessage = [[UILabel alloc]init];
+    _lastMessage.frame = CGRectMake(0, self.view.bounds.size.height - 200.f - 30.f, self.view.bounds.size.width, 30.f);
+    _lastMessage.text = @"";
+    _lastMessage.textColor = [UIColor whiteColor];
+    _lastMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:14.f];
+    _lastMessage.textAlignment = NSTextAlignmentCenter;
+    _lastMessage.alpha = 0.f;
+    _lastMessage.backgroundColor = [UIColor colorWithRed:115/255.f green:137/255.f blue:153/255.f alpha:1.f];
+    [self.view addSubview:_lastMessage];
+    
+    _lastAction = [[UILabel alloc]init];
+    _lastAction.frame = CGRectMake(0, self.view.bounds.size.height - 200.f - 30.f - 60.f, self.view.bounds.size.width, 60.f);
+    _lastAction.text = @"FORWARD (2 votes)";
+    _lastAction.textColor = [UIColor whiteColor];
+    _lastAction.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30.f];
+    _lastAction.textAlignment = NSTextAlignmentCenter;
+    _lastAction.alpha = 0.f;
+    _lastAction.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:115/255.f green:137/255.f blue:153/255.f alpha:0.2f];
+    [self.view addSubview:_lastAction];
     
     UIImageView *trackpad = [[UIImageView alloc]init];
     trackpad.frame = CGRectMake(_border, 35.f, 130.f, 130.f);
@@ -62,14 +84,9 @@
     UIButton *questionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [questionButton setImage:[UIImage imageNamed:@"question"] forState:UIControlStateNormal];
     [questionButton addTarget:self action:@selector(questionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    questionButton.frame = CGRectMake(buttons.frame.origin.x + buttons.frame.size.width - 10, buttons.frame.origin.y + buttons.frame.size.height-10, 30, 30);
+    questionButton.frame = CGRectMake(self.view.bounds.size.width - 30 - 10, 200.f - 40.f, 30, 30);
     [self.controllerBG addSubview:questionButton];
     
-//    UIButton *settingsButton = [[UIButton alloc]init];
-//    settingsButton.frame = CGRectMake(5, 25, 50, 50);
-//    [settingsButton setImage:[UIImage imageNamed:@"buttonpressed"] forState:UIControlStateNormal];
-//    //[settingsButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:settingsButton];
     UIButton *settingsButton = [[UIButton alloc]init];
     settingsButton.frame = CGRectMake(10, 30, 50, 50);
     [settingsButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
@@ -88,15 +105,7 @@
     [self.delegate questionButtonPressedFromControlsController:self];
 }
 
-
--(void)back{
-   // [self.subVC back];
-    
-}
-
 -(void)share{
-    NSLog(@"here");
-    
     MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
     if([MFMessageComposeViewController canSendText])
     {
@@ -105,7 +114,6 @@
         controller.messageComposeDelegate = self;
         [self presentViewController:controller animated:YES completion:nil];
     }
-    
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
@@ -179,7 +187,6 @@
     [_action2B addTarget:self action:@selector(action2Action) forControlEvents:UIControlEventTouchUpInside];
     _action2B.layer.zPosition = 99;
     [_controllerBG addSubview:_action2B];
-    
 }
 
 -(void)unselectAllButtonsExcept:(UIButton*)button{
@@ -192,51 +199,125 @@
     button.selected = YES;
 }
 
+-(void)unselectAll{
+    _forwardB.selected = NO;
+    _leftB.selected = NO;
+    _rightB.selected = NO;
+    _backwardB.selected = NO;
+    _action1B.selected = NO;
+    _action2B.selected = NO;
+}
+
+-(void)canVote{
+    hasVoted = NO;
+}
+
 -(void)forwardAction{
-    [self unselectAllButtonsExcept:_forwardB];
-    [self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"walk forward"];
+        [self unselectAllButtonsExcept:_forwardB];
+        [self.client sendMessage:@{@"action" : @"forward"} onChannel:@"/test"];
+    //    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(canVote) userInfo:nil repeats:NO];
+    }
 }
 
 -(void)leftAction{
-    [self unselectAllButtonsExcept:_leftB];
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"turn left"];
+        [self unselectAllButtonsExcept:_leftB];
     [self.client sendMessage:@{@"action" : @"left"} onChannel:@"/test"];
+     //   [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(canVote) userInfo:nil repeats:NO];
+    }
 }
 
 -(void)rightAction{
-    [self unselectAllButtonsExcept:_rightB];
+
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"turn right"];
+        [self unselectAllButtonsExcept:_rightB];
     [self.client sendMessage:@{@"action" : @"right"} onChannel:@"/test"];
+   //     [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(canVote) userInfo:nil repeats:NO];
+
+    }
 }
 
 -(void)backwardAction{
-    [self unselectAllButtonsExcept:_backwardB];
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"turn around"];
+        [self unselectAllButtonsExcept:_backwardB];
     [self.client sendMessage:@{@"action" : @"backward"} onChannel:@"/test"];
+    //    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(canVote) userInfo:nil repeats:NO];
+
+    }
 }
 
 -(void)action1Action{
-    [self unselectAllButtonsExcept:_action1B];
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"say hi"];
+        [self unselectAllButtonsExcept:_action1B];
     [self.client sendMessage:@{@"action" : @"action1"} onChannel:@"/test"];
+     //   [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(canVote) userInfo:nil repeats:NO];
+
+    }
 }
 
 -(void)action2Action{
-    [self unselectAllButtonsExcept:_action2B];
+    if (!hasVoted) {
+        hasVoted = YES;
+        [self pushAction:@"thumbs up"];
+        [self unselectAllButtonsExcept:_action2B];
     [self.client sendMessage:@{@"action" : @"action2"} onChannel:@"/test"];
+
+    }
 }
 
 
-- (void)pushAction:(NSDictionary*)action{
-    if ([action[@"action"] isEqualToString:@"forward"]) {
-        [self unselectAllButtonsExcept:_forwardB];
-    } else if ([action[@"action"] isEqualToString:@"backward"]){
-        [self unselectAllButtonsExcept:_backwardB];
-    } else if ([action[@"action"] isEqualToString:@"left"]){
-        [self unselectAllButtonsExcept:_leftB];
-    } else if ([action[@"action"] isEqualToString:@"right"]){
-        [self unselectAllButtonsExcept:_rightB];
-    } else if ([action[@"action"] isEqualToString:@"action1"]){
-        [self unselectAllButtonsExcept:_action1B];
-    } else if ([action[@"action"] isEqualToString:@"action2"]){
-        [self unselectAllButtonsExcept:_action2B];
+-(void)pushMainAction:(NSString *)action{
+    hasVoted = NO;
+    [self unselectAll];
+    _lastAction.alpha = 1.f;
+    _lastAction.text = action;
+    if (actionFinished) {
+        actionFinished = NO;
+    } else {
+        actionFinished = YES;
     }
+    [UIView animateWithDuration:0.5 delay:5.5 options:0 animations:^{
+        if (actionFinished) {
+            _lastAction.alpha = 0.f;
+            actionFinished = NO;
+        } else{
+            actionFinished = YES;
+        }
+    } completion:^(BOOL finished) {}];
+}
+
+- (void)pushAction:(NSString*)action{
+    [self pushComment:[NSString stringWithFormat:@"you voted: %@",action]];
+    
+}
+
+- (void)pushComment:(NSString *)comment{
+    _lastMessage.alpha = 1.f;
+    _lastMessage.text = comment;
+    if (finished) {
+        finished = NO;
+    } else {
+        finished = YES;
+    }
+    [UIView animateWithDuration:0.5 delay:3.0 options:0 animations:^{
+        if (finished) {
+            _lastMessage.alpha = 0.f;
+            finished = NO;
+        } else{
+            finished = YES;
+        }
+    } completion:^(BOOL finished) {}];
 }
 
 @end

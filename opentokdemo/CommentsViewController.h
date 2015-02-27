@@ -25,5 +25,6 @@
 @property (weak, nonatomic) id<CommentsViewControllerDelegate> delegate;
 - (void)pushComment:(TJWComment *)comment;
 - (void)resignKeyboard;
+- (void)downloadComments;
 
 @end

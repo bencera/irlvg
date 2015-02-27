@@ -11,6 +11,7 @@
 #import "CommentTableViewCell.h"
 #import "TJWComment.h"
 #import "TJWUser.h"
+#import "AFNetworking.h"
 
 #define composeBoxHeight 50.f
 #define sendMessagePlaceholder @"Comment..."
@@ -38,14 +39,13 @@
     [super viewDidLoad];
     
     UILabel *nameLabel = [[UILabel alloc]init];
-    nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
-    nameLabel.text = self.currentUser.displayName;
+    nameLabel.frame = CGRectMake(0, 20, self.view.bounds.size.width, 70.f);
+    nameLabel.text = @"COMMENTS";
+    nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30.f];
+    nameLabel.textColor = [UIColor colorWithRed:255/255.f green:204/255.f blue:0 alpha:1.f];
     nameLabel.textAlignment = NSTextAlignmentCenter;
-    nameLabel.textColor = [UIColor darkTextColor];
-//    nameLabel.backgroundColor = [UIColor whiteColor];
-//    nameLabel.alpha = 0.7;
     self.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.7];
-  //  [self.view addSubview:nameLabel];
+    [self.view addSubview:nameLabel];
     
     UIButton *settingsButton = [[UIButton alloc]init];
     settingsButton.frame = CGRectMake(10, 30, 50, 50);
@@ -67,8 +67,6 @@
     _composerHolder.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_composerHolder];
     
-    CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, _composerHolder.frame.origin.y - NAV_BAR_HEIGHT);
-    _tableView.frame = tableViewFrame;
     [self scrollToLastMessageAnimated:NO];
     
     _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -127,7 +125,7 @@
         
         [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
             
-            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight - NAV_BAR_HEIGHT - composeBoxHeight);
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - keyboardHeight - NAV_BAR_HEIGHT);
             _tableView.frame = tableViewFrame;
             
             CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height  - keyboardHeight, self.view.bounds.size.width, composeBoxHeight);
@@ -138,7 +136,7 @@
         } completion:^(BOOL finished) {
             [_textView setSelectedRange:NSMakeRange(0, 0)];
         }];
-        [self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
+        //[self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -155,7 +153,7 @@
         
         [UIView animateWithDuration:duration delay:0.0 options:(animationCurve << 16) animations:^{
             
-            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT);
+            CGRect tableViewFrame = CGRectMake(0,NAV_BAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - NAV_BAR_HEIGHT - composeBoxHeight);
             _tableView.frame = tableViewFrame;
             
             CGRect composerFrame = CGRectMake(0, self.view.bounds.size.height - composeBoxHeight, self.view.bounds.size.width, composeBoxHeight);
@@ -166,23 +164,16 @@
         } completion:^(BOOL finished) {
             [_textView setSelectedRange:NSMakeRange(0, 0)];
         }];
-        [self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
+        //[self performSelector:@selector(scrollUpTableView) withObject:nil afterDelay:0.15];
     }];
 
 
+    [self downloadComments];
 }
 
 - (NSMutableArray *)comments {
     if (!_comments) {
         _comments = [[NSMutableArray alloc] init];
-//        TJWComment *comment = [[TJWComment alloc] initWithMessage:@"Hello Everybody, Dr. Nick" fromUser:[[TJWUser alloc] initWithName:@"Sam"]];
-//        TJWComment *second = [[TJWComment alloc] initWithMessage:@"Grammys sometime" fromUser:[[TJWUser alloc] initWithName:@"Jam"]];
-//        TJWComment *third = [[TJWComment alloc] initWithMessage:@"lalalala balingo balinga dope dah fair and even all the lines and oh maybe sometime yess or no" fromUser:[[TJWUser alloc] initWithName:@"Alice"]];
-//        [_comments addObjectsFromArray:@[comment, second, third]];
-//        [_comments addObjectsFromArray:@[comment, second, third]];
-//        [_comments addObjectsFromArray:@[comment, second, third]];
-//        [_comments addObjectsFromArray:@[comment, second, third]];
-//        [_comments addObjectsFromArray:@[comment, second, third]];        
     }
     return _comments;
 }
@@ -191,6 +182,7 @@
     [self.comments addObject:comment];
     [self.tableView reloadData];
     [self scrollToLastMessageAnimated:YES];
+    [self sendCommentToServerWithUser:comment.user.name andMessage:comment.message];
 }
 
 
@@ -213,14 +205,9 @@
     if (![message isEqualToString:sendMessagePlaceholder] && [message length]) {
         TJWComment *comment = [[TJWComment alloc] initWithMessage:message fromUser:self.currentUser];
         [self.delegate commentsController:self didFinishTypingComment:comment];
-        self.textView.text = sendMessagePlaceholder;
+        self.textView.text = @"";
     }
 
-}
-
--(void)scrollUpTableView{
-   // [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(_messages.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    
 }
 
 -(void)backToGame{
@@ -246,10 +233,7 @@
     
     CommentTableViewCell *cell = [[CommentTableViewCell alloc] init];
     cell.textLabel.attributedText = [self attributedBodyTextAtIndexPath:indexPath];
-    
-    // Do the layout pass on the cell, which will calculate the frames for all the views based on the constraints
-    // (Note that the preferredMaxLayoutWidth is set on multi-line UILabels inside the -[layoutSubviews] method
-    // in the UITableViewCell subclass
+
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
     
@@ -267,7 +251,7 @@
 - (NSAttributedString *)attributedBodyTextAtIndexPath:(NSIndexPath *)path {
     TJWComment *comment = self.comments[path.row];
     NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", comment.user.displayName] attributes:@{NSForegroundColorAttributeName : [self colorForIndex:path.row]}];
-    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    NSAttributedString *message = [[NSAttributedString alloc] initWithString:comment.message attributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
     [name appendAttributedString:message];
     return name;
 }
@@ -315,16 +299,41 @@
     NSString *newText = [self.textView.text stringByReplacingCharactersInRange:range withString:text];
     if ([newText length] == 0) {
         self.textView.text = sendMessagePlaceholder;
+        self.textView.textColor  = [UIColor lightGrayColor];
         return NO;
     } else {
         if ([self.textView.text isEqualToString:sendMessagePlaceholder]) {
             self.textView.text = text;
+            self.textView.textColor  = [UIColor blackColor];
             return NO;
         } else {
             return YES;
         }
     }
     
+}
+
+#pragma mark - Comments server
+
+-(void)downloadComments{
+    [[AFHTTPRequestOperationManager manager] GET:@"https://irl-backend.herokuapp.com/comments" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        _comments = [[NSMutableArray alloc] init];
+        for (NSDictionary *comment in responseObject) {
+            TJWComment *commentObject = [[TJWComment alloc] initWithMessage:comment[@"message"] fromUser:[[TJWUser alloc] initWithName:comment[@"user"]]];
+            [_comments addObject:commentObject];
+        }
+        [_tableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+    }];
+}
+
+-(void)sendCommentToServerWithUser:(NSString*)username andMessage:(NSString*)message{
+    [[AFHTTPRequestOperationManager manager] POST:@"https://irl-backend.herokuapp.com/comment" parameters:@{@"username" : username, @"message" : message} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+    }];
 }
 
 @end

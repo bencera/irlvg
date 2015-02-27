@@ -26,7 +26,9 @@
 
 //@property (strong,nonatomic) SubscribeViewController *subVC;
 
-- (void)pushAction:(NSDictionary*)action;
+- (void)pushAction:(NSString*)action;
+- (void)pushComment:(NSString *)comment;
+- (void)pushMainAction:(NSString *)action;
 
 
 @end

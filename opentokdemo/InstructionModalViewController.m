@@ -37,7 +37,7 @@
         [self.view addGestureRecognizer:tap];
         
         NSArray *images = @[[UIImage imageNamed:@"red_button"], [UIImage imageNamed:@"yellow_button"] ,[UIImage imageNamed:@"track_up"] ,[UIImage imageNamed:@"track_down"] ,[UIImage imageNamed:@"track_left"] ,[UIImage imageNamed:@"track_right"]];
-        NSArray *strings = @[@"say hi", @"punch", @"move forward", @"move backward", @"move left", @"move right"];
+        NSArray *strings = @[@"say hi", @"thumbs up", @"move forward", @"move backward", @"move left", @"move right"];
         _optionViews = [NSMutableArray array];
         for (int i=0; i<[strings count]; i++) {
             TJWOptionView *view = [[TJWOptionView alloc] initWithFrame:CGRectZero image:images[i] text:strings[i]];

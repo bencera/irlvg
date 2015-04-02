@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FriendListViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic) FriendListViewController *choiceVC;
 
 
 @end

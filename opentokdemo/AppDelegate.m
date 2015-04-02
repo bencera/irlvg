@@ -7,43 +7,55 @@
 //
 
 #import "AppDelegate.h"
-#import "ChoiceViewController.h"
 #import "HockeySDK.h"
-//#import "SubscribeViewController.h"
-#import "NewSubscribeViewController.h"
-#import "ViewController.h"
 #import "NameViewController.h"
+#import "AFNetworking.h"
+#import "Mixpanel.h"
+#import "FriendListViewController.h"
 
-@interface AppDelegate ()
+#define MIXPANEL_TOKEN @"e0ba9922519993523d6adca9280d9398"
 
-@property (nonatomic) NewSubscribeViewController *choiceVC;
+@interface AppDelegate () <UIAlertViewDelegate>
 
 @end
 
 @implementation AppDelegate
 
+@synthesize choiceVC;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     [self configureHockey];
+    
+    [self mixpanelTrackOpen];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    _choiceVC = [[NewSubscribeViewController alloc]init];
-    self.window.rootViewController = _choiceVC;
+    self.choiceVC = [[FriendListViewController alloc]init];
+    self.window.rootViewController = self.choiceVC;
     
     [self.window makeKeyAndVisible];
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"token"]) {
         NameViewController *nameVC = [[NameViewController alloc] init];
         UINavigationController *navVCintro = [[UINavigationController alloc]initWithRootViewController:nameVC];
         navVCintro.navigationBarHidden = YES;
-        [_choiceVC presentViewController:navVCintro animated:NO completion:nil];
+        [self.choiceVC presentViewController:navVCintro animated:NO completion:nil];
     }
     
     return YES;
 }
+
+
+-(void)mixpanelTrackOpen{
+    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"open app"];
+}
+
 
 - (void)configureHockey {
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"0a0de10bbe379818942dcc056bc96a39"];
@@ -51,28 +63,70 @@
     [[[BITHockeyManager sharedHockeyManager] authenticator] authenticateInstallation];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    [application registerForRemoteNotifications];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [self.choiceVC downloadLastRequest];
+}
+
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler
+{
+    //handle the actions
+    if ([identifier isEqualToString:@"declineAction"]){
+    }
+    else if ([identifier isEqualToString:@"answerAction"]){
+    }
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSString* newToken = [deviceToken description];
+    newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    
+    NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"];
+    if (token) {
+        [[AFHTTPRequestOperationManager manager] POST:@"https://irl-backend.herokuapp.com/quickie/register_token" parameters:@{@"push_token" : newToken, @"token" : token} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [[NSUserDefaults standardUserDefaults] setObject:newToken forKey:@"pushToken"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            //
+        }];
+    }
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"noNotifications"]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Push Notifications" message:@"You need push notifications to be able to receive quickies from your friends! Please Allow notifications for Quickie in Settings!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to Settings", @"I don't want to receive quickies", nil];
+        alert.delegate = self;
+        [alert show];
+    }
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    } else if (buttonIndex == 2){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"noNotifications"];
+    }
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"calling"];
+    [self.choiceVC notifyOnline];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    
-    [_choiceVC.commentsVC downloadComments];
-}
+    [self.choiceVC downloadLastRequest];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end

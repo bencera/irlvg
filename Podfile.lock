@@ -21,16 +21,21 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - HockeySDK (3.6.2)
+  - Mixpanel (2.7.2):
+    - Mixpanel/MPCategoryHelpers (= 2.7.2)
+  - Mixpanel/MPCategoryHelpers (2.7.2)
   - SocketRocket (0.3.1-beta2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - HockeySDK (~> 3.6)
+  - Mixpanel
   - SocketRocket (~> 0.3.1-beta2)
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   HockeySDK: bfd1f5ac75938b07499c4ac12932244b72a2e70b
+  Mixpanel: def38b9e600f101686b8d647e05660a72c089c65
   SocketRocket: 79a68ae186063c65e1fe6f638b1ae2927aa5f304
 
 COCOAPODS: 0.35.0

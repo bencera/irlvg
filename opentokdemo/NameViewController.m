@@ -10,6 +10,7 @@
 #import "SlidesViewController.h"
 #import "AFNetworking.h"
 #import "PhoneViewController.h"
+#import "Mixpanel.h"
 
 #define ACCEPTABLE_CHARECTERS @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"
 
@@ -17,6 +18,7 @@
 
 @property (nonatomic) UITextField *nameField;
 @property (nonatomic) UIButton *okButton;
+@property (nonatomic) UIWebView *webView;
 
 @end
 
@@ -39,7 +41,7 @@
     
     self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.okButton.frame = CGRectMake(40, 140, (self.view.bounds.size.width - 80), 60);
-    self.okButton.backgroundColor = [UIColor colorWithRed:255/255.f green:204/255.f blue:0 alpha:1.f];
+    self.okButton.backgroundColor = [UIColor colorWithRed:249/255.f green:139/255.f blue:61/255.f alpha:1.f];
     [self.okButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.okButton setTitle:@"ENTER >" forState:UIControlStateNormal];
     self.okButton.titleLabel.font = [UIFont fontWithName:@"DINCond-Bold" size:26.f];
@@ -48,15 +50,40 @@
     
     [_nameField becomeFirstResponder];
     
+    UILabel *termsLabel = [[UILabel alloc]init];
+    termsLabel.frame = CGRectMake(40, self.view.bounds.size.height - 300.f, (self.view.bounds.size.width - 80), 60);
+    NSString *textOutStations = @"By signing up you're agreeing to Terms of Use and Privacy Policy.";
+    termsLabel.font = [UIFont fontWithName:@"DINCond-Regular" size:12.f];
+    [self.view addSubview:termsLabel];
+    termsLabel.textAlignment = NSTextAlignmentCenter;
+    NSDictionary *underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};
+    termsLabel.attributedText = [[NSAttributedString alloc] initWithString:textOutStations
+                                                             attributes:underlineAttribute];
+    
+    UIButton *buttonTerms = [[UIButton alloc]init];
+    buttonTerms.frame = termsLabel.frame;
+    buttonTerms.backgroundColor = [UIColor clearColor];
+    [buttonTerms addTarget:self action:@selector(openSafari) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:buttonTerms];
+    
+}
+
+-(void)openSafari{
+    NSURL *url = [NSURL URLWithString:@"http://5secondquickie.me/"];
+    
+    if (![[UIApplication sharedApplication] openURL:url]) {
+        NSLog(@"%@%@",@"Failed to open url:",[url description]);
+    }
 }
 
 -(void)enter{
 
     if ([_nameField.text length] > 0) {
+        
         self.okButton.userInteractionEnabled = NO;
         [self.okButton setTitle:@"LOADING..." forState:UIControlStateNormal];
         
-    [[NSUserDefaults standardUserDefaults] setValue:_nameField.text forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setValue:[_nameField.text lowercaseString] forKey:@"username"];
     
     [[AFHTTPRequestOperationManager manager] POST:@"http://irl-backend.herokuapp.com/quickie/create_account"
                                         parameters:@{@"username" : _nameField.text}
@@ -69,7 +96,14 @@
                                                 [alert show];
                                             } else{
                                                 [[NSUserDefaults standardUserDefaults] setValue:responseObject[@"token"] forKey:@"token"];
-                                            
+                                                
+                                                Mixpanel *mixpanel = [Mixpanel sharedInstance];
+                                                [mixpanel identify:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"]];
+                                                [mixpanel.people set:@{@"$name": [_nameField.text lowercaseString]}];
+                                                [mixpanel.people set:@{@"token": responseObject[@"token"]}];
+                                                [mixpanel.people increment:@"app opens" by:@1];
+                                                [mixpanel track:@"open app"];
+                                                
                                                 PhoneViewController *phoneVC = [[PhoneViewController alloc]init];
                                                 phoneVC.firstFlow = YES;
                                                 [self.navigationController pushViewController:phoneVC animated:YES];

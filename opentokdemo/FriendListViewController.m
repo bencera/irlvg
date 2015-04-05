@@ -14,8 +14,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DeepCopy.h"
 #import <MessageUI/MessageUI.h>
+#import "Mixpanel.h"
 
-#define request_expiration 30 //30 seconds
+#define request_expiration 21 //20 seconds
 
 @interface FriendListViewController() <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate,UIActionSheetDelegate, MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
@@ -47,9 +48,10 @@
 
 #pragma mark - View Logic
 
+
 -(void)viewDidLoad{
     [super viewDidLoad];
-
+    
     self.firstLoading = YES;
     self.tryItOutAvailable = 0;
     self.godMode = 0;
@@ -121,7 +123,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    self.subVC = nil;
+    //self.subVC = nil;
 }
 
 - (void) runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
@@ -196,6 +198,9 @@
             [self.tableView reloadData];
             
             [self checkTryItOutAvailable];
+            
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel.people set:@{@"n_friends": [NSString stringWithFormat:@"%lu",(unsigned long)self.friendList.count]}];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
@@ -290,11 +295,14 @@
 }
 
 -(void)notifyOnline{
-    [[AFHTTPRequestOperationManager manager] POST:@"https://irl-backend.herokuapp.com/quickie/notify_users_online" parameters:@{@"token" : [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //
-    }];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"token"]) {
+        
+        [[AFHTTPRequestOperationManager manager] POST:@"https://irl-backend.herokuapp.com/quickie/notify_users_online" parameters:@{@"token" : [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            //
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            //
+        }];
+    }
 }
 
 
@@ -504,7 +512,7 @@
     MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
     if([MFMessageComposeViewController canSendText])
     {
-        controller.body = @"Get Quickie! http://tinyurl.com/irlappbeta";
+        controller.body = [NSString stringWithFormat:@"Quickie me! My username is %@ http://5secondquickie.me/download",[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]];
         controller.recipients = [NSArray arrayWithObjects: nil];
         controller.messageComposeDelegate = self;
         [self presentViewController:controller animated:YES completion:nil];
@@ -520,13 +528,18 @@
         case MessageComposeResultFailed:
             break;
         case MessageComposeResultSent:
-            
+            [self trackInviteSent];
             break;
         default:
             break;
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)trackInviteSent{
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"invited friend"];
 }
 
 -(void)feedback{
@@ -629,6 +642,9 @@
 
 -(void)changeTimer{
     NSLog(@"here");
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"change quickie duration"];
+    
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Quickie duration" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"5 seconds", @"10 seconds", @"20 seconds", @"30 seconds", @"60 seconds", nil];
     [actionSheet showInView:self.view];
 }

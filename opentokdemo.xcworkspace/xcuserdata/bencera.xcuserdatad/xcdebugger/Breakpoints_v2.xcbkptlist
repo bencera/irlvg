@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "opentokdemo/NewSubscribeViewController.m"
-            timestampString = "449620382.216323"
+            timestampString = "449937181.408269"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "477"
-            endingLineNumber = "477"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "-sessionDidConnect:"
             landmarkType = "5">
          </BreakpointContent>

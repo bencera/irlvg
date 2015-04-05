@@ -36,6 +36,10 @@
 @property (nonatomic) UIButton *skipButton;
 @property (nonatomic) UILabel *name;
 @property BOOL arbitrary_caller;
+@property double time_started_calling;
+@property double time_started_connecting;
+@property double time_started_video;
+@property BOOL call_already_stopped;
 
 @end
 
@@ -62,9 +66,7 @@ static NSString* const kApiKey = @"45159522";
 {
     [super viewDidLoad];
     
-    
-    NSLog(@"%@", [self.username lowercaseString]);
-    NSLog(@"%@", [[[NSUserDefaults standardUserDefaults] valueForKey:@"username"] lowercaseString]);
+    self.time_started_calling = [[NSDate date] timeIntervalSince1970];
     
     NSString *username1 = [[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]lowercaseString];
     NSString *username2 = [self.username lowercaseString];
@@ -75,10 +77,8 @@ static NSString* const kApiKey = @"45159522";
     
     if ([username1 compare:username2] == NSOrderedAscending) {
         self.arbitrary_caller = YES;
-        NSLog(@"caller!");
     } else{
         self.arbitrary_caller = NO;
-        NSLog(@"not caller!");
     }
     
     
@@ -92,9 +92,11 @@ static NSString* const kApiKey = @"45159522";
     if (missed_call) {
         [self loadConfirmCallObjects];
     } else if (calling) {
+        [self loadQuickieCallObjects];
         [self loadSessionIdAndTokenAndCallFriend];
     } else{
         [self loadQuickieCallObjects];
+        [self connectWithSession];
     }
 }
 
@@ -154,7 +156,7 @@ static NSString* const kApiKey = @"45159522";
 
 }
 
--(void)loadQuickieCallObjects{
+-(void)connectWithSession{
     _myAudioDevice = [[MyAudioDevice alloc] init];
     [OTAudioDeviceManager setAudioDevice:_myAudioDevice];
     
@@ -163,6 +165,9 @@ static NSString* const kApiKey = @"45159522";
                                         delegate:self];
     
     [self doConnect];
+}
+
+-(void)loadQuickieCallObjects{
     
     self.name = [[UILabel alloc]init];
     self.name.frame = CGRectMake(0, 20, self.view.bounds.size.width, 60.f);
@@ -214,7 +219,6 @@ static NSString* const kApiKey = @"45159522";
     [cameraButton addTarget:self action:@selector(SwitchCamera) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cameraButton];
     
-    [self mixpanelTrackCall];
 }
 
 -(void)callBack{
@@ -224,6 +228,7 @@ static NSString* const kApiKey = @"45159522";
     self.acceptButton.hidden = YES;
     self.skipButton.hidden = YES;
     [self runSpinAnimationOnView:self.waitingIcon duration:1 rotations:1 repeat:99];
+    [self loadQuickieCallObjects];
     [self loadSessionIdAndTokenAndCallFriend];
 }
 
@@ -238,16 +243,47 @@ static NSString* const kApiKey = @"45159522";
     [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
+-(void)mixpanelReceivedCall{
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"quickie received"];
+    [mixpanel.people increment:@"quickie received" by:@1];
+    if (self.videoReceived) {
+        [mixpanel.people increment:@"successful quickies" by:@1];
+    }
+
+}
+
 -(void)mixpanelTrackCall{
+    NSLog(@"just tracked");
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:@"quickie"];
+    [mixpanel.people increment:@"quickie sent" by:@1];
+    if (self.videoReceived) {
+        [mixpanel.people increment:@"successful quickies" by:@1];
+        int time_to_connecting = (int)self.time_started_connecting - self.time_started_calling;
+        int time_to_video = (int)self.time_started_video - self.time_started_connecting;
+        int total_time_waited = (int)self.time_started_video - self.time_started_calling;
+        [mixpanel track:@"quickie sent" properties:@{@"successful call" : [NSNumber numberWithBool:self.videoReceived],
+                                                     @"call duration" : self.duration,
+                                                     @"time to connecting" : [NSNumber numberWithInt:time_to_connecting],
+                                                     @"time to video" : [NSNumber numberWithInt:time_to_video],
+                                                     @"total time waited" : [NSNumber numberWithInt:total_time_waited]}];
+    } else if (self.time_started_connecting > 0){
+        double time_to_giveup = [[NSDate date] timeIntervalSince1970];
+        int time_to_connecting = (int)self.time_started_connecting - self.time_started_calling;
+        int time_to_giveup_int = (int)time_to_giveup - self.time_started_calling;
+        [mixpanel track:@"quickie sent" properties:@{@"successful call" : [NSNumber numberWithBool:self.videoReceived],
+                                                     @"call duration" : self.duration,
+                                                     @"time to connecting" : [NSNumber numberWithInt:time_to_connecting],
+                                                     @"time to giveup" : [NSNumber numberWithInt:time_to_giveup_int]}];
+    } else{
+        double time_to_giveup = [[NSDate date] timeIntervalSince1970];
+        int time_to_giveup_int = (int)time_to_giveup - self.time_started_calling;
+        [mixpanel track:@"quickie sent" properties:@{@"successful call" : [NSNumber numberWithBool:self.videoReceived],
+                                                     @"call duration" : self.duration,
+                                                     @"time to giveup" : [NSNumber numberWithInt:time_to_giveup_int]}];
+    }
 }
 
-
--(void)mixpanelTrackCallEnded{
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:@"call ended before end"];
-}
 
 #pragma mark - HTTP Requests
 
@@ -256,7 +292,7 @@ static NSString* const kApiKey = @"45159522";
         //
         session_id = responseObject[@"session_id"];
         session_token = responseObject[@"session_token"];
-        [self loadQuickieCallObjects];
+        [self connectWithSession];
         self.callingTimer = [NSTimer scheduledTimerWithTimeInterval:20.f target:self selector:@selector(missedCall) userInfo:nil repeats:NO];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
@@ -340,35 +376,42 @@ static NSString* const kApiKey = @"45159522";
 }
 
 -(void)NotifiyStopCall{
-    [self mixpanelTrackCallEnded];
     OTError* error = nil;
     [_session signalWithType:@"" string:@"stop_call" connection:nil error:&error];
     if (error) {
         NSLog(@"signal error %@", error);
-    } else {
-        [self stopCall];
     }
+    [self stopCall];
 }
 
 -(void)stopCall{
     
-    [self.callingTimer invalidate];
-    self.callingTimer = nil;
-    
-    if (self.videoReceived || self.tryitout) {
-        [self endRequestWithUser:self.user_id];
-    } else {
-        [self SendMissedCallToUser:self.user_id];
+    if (!self.call_already_stopped) {
+        self.call_already_stopped = YES;
+        if (calling) {
+            [self mixpanelTrackCall];
+        } else {
+            [self mixpanelReceivedCall];
+        }
+        
+        [self.callingTimer invalidate];
+        self.callingTimer = nil;
+        
+        if (self.videoReceived || self.tryitout) {
+            [self endRequestWithUser:self.user_id];
+        } else {
+            [self SendMissedCallToUser:self.user_id];
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"calling"];
+        
+        [self dismissViewControllerAnimated:NO completion:^{
+            [_session unpublish:_publisher error:nil];
+            [_session unsubscribe:_subscriber error:nil];
+            [_session disconnect:nil];
+            [self deallocateObjects];
+        }];
     }
-    
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"calling"];
-    
-    [self dismissViewControllerAnimated:NO completion:^{
-        [_session unpublish:_publisher error:nil];
-        [_session unsubscribe:_subscriber error:nil];
-        [_session disconnect:nil];
-        [self deallocateObjects];
-    }];
 }
 
 -(void)deallocateObjects{
@@ -381,8 +424,30 @@ static NSString* const kApiKey = @"45159522";
     _subscriber = nil;
     [OTAudioDeviceManager setAudioDevice:nil];
     _myAudioDevice = nil;
-    AVAudioSession *mySession = [AVAudioSession sharedInstance];
-    [mySession setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    [self restartMusic];
+   // AVAudioSession *mySession = [AVAudioSession sharedInstance];
+    //[mySession setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    //[mySession setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+}
+
+-(void)restartMusic{
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    
+    void (^deactivateAudioSessionBlock)() = ^(void){
+        
+        NSError *theError;
+        if (NO == [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&theError])
+        {
+            NSLog(@"deactivating the audio session failed: %@", theError);
+        } else {
+            NSLog(@"Deactivated Audio Session");
+        }
+        
+        
+    };
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(100 * NSEC_PER_MSEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), deactivateAudioSessionBlock);
 }
 
 
@@ -513,6 +578,7 @@ streamDestroyed:(OTStream *)stream
     {
         [self cleanupSubscriber];
     }
+    [self NotifiyStopCall];
 }
 
 - (void)  session:(OTSession *)session
@@ -523,6 +589,7 @@ connectionCreated:(OTConnection *)connection
     self.name.text = @"CONNECTING...";
     [self.callingTimer invalidate];
     self.callingTimer = nil;
+    self.time_started_connecting = [[NSDate date] timeIntervalSince1970];
 }
 
 - (void)    session:(OTSession *)session
@@ -534,6 +601,7 @@ connectionDestroyed:(OTConnection *)connection
     {
         [self cleanupSubscriber];
     }
+    [self NotifiyStopCall];
 }
 
 - (void) session:(OTSession*)session
@@ -556,6 +624,7 @@ didFailWithError:(OTError*)error
     NSLog(@"RECEIVED");
     
     if (!self.videoReceived & !self.arbitrary_caller) {
+        self.time_started_video = [[NSDate date] timeIntervalSince1970];
         self.name.text = [self.username uppercaseString];
         self.videoReceived = YES;
         OTError* error = nil;
@@ -564,6 +633,7 @@ didFailWithError:(OTError*)error
             NSLog(@"signal error %@", error);
         }
     } else if (self.arbitrary_caller && !self.videoReceived && self.otherReceivedVideo){
+        self.time_started_video = [[NSDate date] timeIntervalSince1970];
         self.name.text = [self.username uppercaseString];
         self.videoReceived = YES;
         OTError* error = nil;

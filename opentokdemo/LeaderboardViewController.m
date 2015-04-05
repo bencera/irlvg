@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "AppDelegate.h"
 #import "FriendListViewController.h"
+#import "Mixpanel.h"
 
 @interface LeaderboardViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
@@ -26,6 +27,8 @@
 @implementation LeaderboardViewController
 
 - (void)viewDidLoad{
+    [self mixpanelTrackLeaderboard];
+    
     UIView *navBar = [[UIView alloc]init];
     navBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 84.f);
     navBar.backgroundColor = [UIColor colorWithRed:249/255.f green:139/255.f blue:61/255.f alpha:1.f];
@@ -83,7 +86,7 @@
 }
 
 - (void)infoAction{
-    UIAlertView *infoAlert = [[UIAlertView alloc]initWithTitle:@"Leaderboard rules" message:@"The score is the total number of seconds requested to that user on Quickie. Only your friends and friends of friends will show up in the leaderboard." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *infoAlert = [[UIAlertView alloc]initWithTitle:nil message:@"Score = Quickie requests received (in seconds). Friends and friends of friends only!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [infoAlert show];
 }
 
@@ -171,6 +174,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1 && alertView.tag == 2) {
         [self addFriend:self.friend_added];
+        [self mixpanelTrackAddFriend];
     }
 }
 
@@ -201,6 +205,18 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
     }];
+}
+
+#pragma mark - Mixpanel
+
+-(void)mixpanelTrackLeaderboard{
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"leaderboard"];
+}
+
+-(void)mixpanelTrackAddFriend{
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"added friend from leaderboard"];
 }
 
 @end

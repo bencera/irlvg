@@ -13,6 +13,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "AppDelegate.h"
+#import "Mixpanel.h"
 
 #define ACCEPTABLE_CHARECTERS @"0123456789"
 
@@ -57,10 +58,7 @@
     navBar.backgroundColor = [UIColor colorWithRed:249/255.f green:139/255.f blue:61/255.f alpha:1.f];
     [self.view addSubview:navBar];
     
-    self.logo = [[UIImageView alloc]init];
-    self.logo.frame = CGRectMake((self.view.bounds.size.width - 35)/2, 27, 35, 50);
-    self.logo.image = [UIImage imageNamed:@"bolt_forcalls"];
-    [self.view addSubview:self.logo];
+
     
     //tableView
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 84, self.view.bounds.size.width, self.view.bounds.size.height-84.f) style:UITableViewStylePlain];
@@ -86,7 +84,7 @@
     
     self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.okButton.frame = CGRectMake(40, 140, (self.view.bounds.size.width - 80), 60);
-    self.okButton.backgroundColor = [UIColor colorWithRed:255/255.f green:204/255.f blue:0 alpha:1.f];
+    self.okButton.backgroundColor = [UIColor colorWithRed:249/255.f green:139/255.f blue:61/255.f alpha:1.f];
     [self.okButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.okButton setTitle:@"FIND FRIENDS >" forState:UIControlStateNormal];
     self.okButton.titleLabel.font = [UIFont fontWithName:@"DINCond-Bold" size:26.f];
@@ -96,7 +94,7 @@
     self.skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.skipButton.frame = CGRectMake(40, 200, (self.view.bounds.size.width - 80), 60);
     self.skipButton.backgroundColor = [UIColor clearColor];
-    [self.skipButton setTitleColor:[UIColor colorWithRed:255/255.f green:204/255.f blue:0 alpha:1.f] forState:UIControlStateNormal];
+    [self.skipButton setTitleColor:[UIColor colorWithRed:249/255.f green:139/255.f blue:61/255.f alpha:1.f] forState:UIControlStateNormal];
     [self.skipButton setTitle:@"skip >" forState:UIControlStateNormal];
     self.skipButton.titleLabel.font = [UIFont fontWithName:@"DINCond-Bold" size:18.f];
     [self.skipButton addTarget:self action:@selector(askAddressBookAccess) forControlEvents:UIControlEventTouchUpInside];
@@ -104,32 +102,49 @@
     
     
     [_nameField becomeFirstResponder];
+    
+    self.logo = [[UIImageView alloc]init];
+    self.logo.frame = CGRectMake((self.view.bounds.size.width - 35)/2, self.view.bounds.size.height - 150.f, 35, 50);
+    self.logo.image = [UIImage imageNamed:@"bolt_forcalls"];
+    [self.view addSubview:self.logo];
 }
 
 -(void)enter{
     if (_nameField.text.length > 0) {
-   
-    self.okButton.userInteractionEnabled = NO;
-    [self.okButton setTitle:@"LOADING..." forState:UIControlStateNormal];
-    self.skipButton.userInteractionEnabled = NO;
-    self.skipButton.hidden = YES;
-    
-    [[AFHTTPRequestOperationManager manager] POST:@"http://irl-backend.herokuapp.com/quickie/input_phone"
-                                       parameters:@{@"phone" : [_nameField.text sha1], @"token" : [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]}
-                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                              
-                                              //ask access to contacts
-                                              [self askAddressBookAccess];
-                                              
-                                              
-                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                              
-                                              NSLog(@"%@", error.description);
-                                              self.okButton.userInteractionEnabled = YES;
-                                              [self.okButton setTitle:@"ENTER >" forState:UIControlStateNormal];
-                                              self.skipButton.hidden = NO;
-                                              //
-                                          }];
+        
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel.people set:@{@"inputted phone": @"yes"}];
+        
+        self.okButton.userInteractionEnabled = NO;
+        [self.okButton setTitle:@"LOADING..." forState:UIControlStateNormal];
+        self.skipButton.userInteractionEnabled = NO;
+        self.skipButton.hidden = YES;
+            
+        NSString *newString = [[_nameField.text componentsSeparatedByCharactersInSet:
+                                [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                               componentsJoinedByString:@""];
+        
+        if (newString.length >= 9) {
+            newString = [newString substringFromIndex: [newString length] - 9];
+        
+            [[AFHTTPRequestOperationManager manager] POST:@"http://irl-backend.herokuapp.com/quickie/input_phone"
+                                               parameters:@{@"phone" : [newString sha1], @"token" : [[NSUserDefaults standardUserDefaults] valueForKey:@"token"]}
+                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      
+                                                      //ask access to contacts
+                                                      [self askAddressBookAccess];
+                                                      
+                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                      
+                                                      NSLog(@"%@", error.description);
+                                                      self.okButton.userInteractionEnabled = YES;
+                                                      [self.okButton setTitle:@"ENTER >" forState:UIControlStateNormal];
+                                                      self.skipButton.hidden = NO;
+                                                      //
+                                                  }];
+        } else{
+            [self askAddressBookAccess];
+        }
     }
 }
 
@@ -193,6 +208,7 @@
 }
 
 -(void)askAddressBookAccess{
+    [self runSpinAnimationOnView:self.logo duration:1.f rotations:1.f repeat:99];
     [_nameField resignFirstResponder];
     self.okButton.userInteractionEnabled = NO;
     self.skipButton.userInteractionEnabled = NO;
@@ -207,6 +223,8 @@
             //5
             NSLog(@"Just authorized");
             [self getAddressBook];
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel.people set:@{@"addressbook access": @"yes"}];
         }
         });
     });

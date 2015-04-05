@@ -12,10 +12,11 @@
 #import "AFNetworking.h"
 #import "Mixpanel.h"
 #import "FriendListViewController.h"
+#import "SlidesViewController.h"
 
 #define MIXPANEL_TOKEN @"e0ba9922519993523d6adca9280d9398"
 
-@interface AppDelegate () <UIAlertViewDelegate>
+@interface AppDelegate () <UIAlertViewDelegate,BITHockeyManagerDelegate>
 
 @end
 
@@ -30,7 +31,7 @@
     
     [self configureHockey];
     
-    [self mixpanelTrackOpen];
+    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -44,6 +45,11 @@
         UINavigationController *navVCintro = [[UINavigationController alloc]initWithRootViewController:nameVC];
         navVCintro.navigationBarHidden = YES;
         [self.choiceVC presentViewController:navVCintro animated:NO completion:nil];
+    } else {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel identify:[[NSUserDefaults standardUserDefaults] valueForKey:@"token"]];
+        [mixpanel.people set:@{@"$name": [[[NSUserDefaults standardUserDefaults] valueForKey:@"username"] lowercaseString]}];
+        [self mixpanelTrackOpen];
     }
     
     return YES;
@@ -51,14 +57,14 @@
 
 
 -(void)mixpanelTrackOpen{
-    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"open app"];
+    [mixpanel.people increment:@"app opens" by:@1];
 }
 
 
 - (void)configureHockey {
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"0a0de10bbe379818942dcc056bc96a39"];
+    [[BITHockeyManager sharedHockeyManager] configureWithBetaIdentifier:@"0a0de10bbe379818942dcc056bc96a39" liveIdentifier:@"c69ab802c8c82d6ff9cf3884959e83a2" delegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[[BITHockeyManager sharedHockeyManager] authenticator] authenticateInstallation];
 }
@@ -126,6 +132,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     [self.choiceVC downloadLastRequest];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people increment:@"app opens" by:@1];
 
 }
 
